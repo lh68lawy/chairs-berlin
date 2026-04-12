@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>eBay-Bilder Download Helper</title>
+<style>
+  body { font-family: sans-serif; background: #f5f5f5; padding: 32px; }
+  h1 { font-size: 20px; margin-bottom: 8px; }
+  p.info { color: #666; margin-bottom: 24px; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .card { background: #fff; border-radius: 8px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .card img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #fafafa; border-radius: 4px; }
+  .card .name { font-weight: bold; margin: 8px 0 4px; font-size: 14px; }
+  .card .hint { font-size: 11px; color: #999; }
+  .card a { display: inline-block; margin-top: 8px; padding: 6px 16px; background: #1a1a18; color: #fff; text-decoration: none; border-radius: 4px; font-size: 12px; }
+  .card a:hover { background: #444; }
+</style>
+</head>
+<body>
+<h1>eBay-Bilder Download Helper</h1>
+<p class="info">Rechtsklick auf jedes Bild → „Bild speichern unter" → als <strong>ebXX.jpg</strong> speichern in <code>Stühle/chairs/images/products/</code></p>
+
+<div class="grid">
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/vqMAAOSwpORnxkXx/s-l500.jpg" alt="eb01">
+    <div class="name">eb01.jpg</div>
+    <div class="hint">6× S 43 Blau</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/0UEAAOSwBqFnxkYd/s-l500.jpg" alt="eb02">
+    <div class="name">eb02.jpg</div>
+    <div class="hint">6× S 43 Gelb</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/KqQAAOSwqC1nxkZ1/s-l500.jpg" alt="eb03">
+    <div class="name">eb03.jpg</div>
+    <div class="hint">6× S 43 Rot</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/cDQAAOSwGsBnxkOo/s-l500.jpg" alt="eb04">
+    <div class="name">eb04.jpg</div>
+    <div class="hint">6× S 320</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/YigAAOSwBqFnxkPX/s-l500.jpg" alt="eb05">
+    <div class="name">eb05.jpg</div>
+    <div class="hint">6× S 320 Holzsitz</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/vPUAAOSwx-xnxkQQ/s-l500.jpg" alt="eb06">
+    <div class="name">eb06.jpg</div>
+    <div class="hint">6× S 79 V</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/LqgAAOSwJwFnxkS0/s-l500.jpg" alt="eb07">
+    <div class="name">eb07.jpg</div>
+    <div class="hint">6× 215 F Polster</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/e0kAAOSwmR9nxkTT/s-l500.jpg" alt="eb08">
+    <div class="name">eb08.jpg</div>
+    <div class="hint">6× 214 P Polster</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/v28AAOSwJOlnxkTp/s-l500.jpg" alt="eb09">
+    <div class="name">eb09.jpg</div>
+    <div class="hint">6× 233 Bugholz</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/sFUAAOSwhQVnxkUU/s-l500.jpg" alt="eb10">
+    <div class="name">eb10.jpg</div>
+    <div class="hint">6× 140 P Polster</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/u-8AAOSwfaFnxkU5/s-l500.jpg" alt="eb11">
+    <div class="name">eb11.jpg</div>
+    <div class="hint">6× Hochlehner Holz</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/xG4AAOSwBqFnxkVT/s-l500.jpg" alt="eb12">
+    <div class="name">eb12.jpg</div>
+    <div class="hint">6× Hochlehner Geflecht</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/7e4AAOSwBY5nxkWn/s-l500.jpg" alt="eb13">
+    <div class="name">eb13.jpg</div>
+    <div class="hint">4× Sitzgruppe 215 RF</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/~oIAAOSwqf5nxkXD/s-l500.jpg" alt="eb14">
+    <div class="name">eb14.jpg</div>
+    <div class="hint">4× Sitzgruppe Geflecht</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/ejMAAOSwb0tnxkXb/s-l500.jpg" alt="eb15">
+    <div class="name">eb15.jpg</div>
+    <div class="hint">4× Sitzgruppe Polster</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/2WkAAOSwEJ9nxkYz/s-l500.jpg" alt="eb16">
+    <div class="name">eb16.jpg</div>
+    <div class="hint">5× Fritz Hansen</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/N8gAAOSwx-xnxkQs/s-l500.jpg" alt="eb17">
+    <div class="name">eb17.jpg</div>
+    <div class="hint">S 79 Einzel</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/1uMAAOSwJwFnxkRH/s-l500.jpg" alt="eb18">
+    <div class="name">eb18.jpg</div>
+    <div class="hint">S 570 Einzel</div>
+  </div>
+  <div class="card">
+    <img src="https://i.ebayimg.com/images/g/DlAAAOSwfaFnxkRt/s-l500.jpg" alt="eb19">
+    <div class="name">eb19.jpg</div>
+    <div class="hint">Klöber</div>
+  </div>
+</div>
+</body>
+</html>
