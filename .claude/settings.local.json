@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:anotherjune.com)",
+      "WebFetch(domain:www.stuhlverkauf.de)",
+      "WebFetch(domain:gebrauchte-markenstuehle.de)",
+      "WebFetch(domain:stuhlflechterei.de)"
+    ]
+  }
+}
