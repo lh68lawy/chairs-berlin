@@ -77,8 +77,8 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--white);
-      border-bottom: 1px solid #DDD8D0;
+      background: #F5A623;
+      border-bottom: 1px solid #E0931A;
     }
     .header-inner {
       max-width: 1400px;
@@ -110,8 +110,8 @@
       font-weight: 400;
       transition: color .2s;
     }
-    nav a:hover { color: var(--blue); }
-    nav a.active { color: var(--blue); }
+    nav a:hover { color: var(--white); }
+    nav a.active { color: var(--white); }
 
     .header-right { display: flex; gap: 20px; align-items: center; }
     .header-right a { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -288,6 +288,17 @@
       color: var(--black);
       margin-bottom: 6px;
     }
+    .product-card .badge-ebay {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      background: var(--black);
+      color: var(--white);
+      margin-bottom: 6px;
+      margin-left: 4px;
+    }
 
     /* ── Services Section ── */
     .services {
@@ -330,6 +341,112 @@
       line-height: 1.7;
     }
 
+    /* ── Geflecht-Galerie ── */
+    .geflecht-banner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto 48px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .geflecht-banner img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .geflecht-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,26,24,0.72) 0%, rgba(26,26,24,0.25) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .geflecht-banner-overlay h3 {
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .geflecht-banner-overlay p {
+      color: rgba(245,240,235,0.85);
+      font-size: 15px;
+      max-width: 500px;
+    }
+    .geflecht-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 1024px) { .geflecht-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .geflecht-grid { grid-template-columns: repeat(2, 1fr); } }
+    .geflecht-card {
+      background: var(--white);
+      border-radius: 6px;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .geflecht-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .geflecht-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    .geflecht-card-body {
+      padding: 16px 12px 20px;
+    }
+    .geflecht-card-body h4 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .geflecht-card-body p {
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .geflecht-card-body .geflecht-price {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--black);
+      font-weight: 500;
+    }
+    .geflecht-card-body .btn-geflecht {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 16px;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .geflecht-card-body .btn-geflecht:hover {
+      background: #333;
+    }
+
     /* ── About ── */
     .about {
       max-width: 1200px;
@@ -364,6 +481,88 @@
       height: 100%;
       object-fit: cover;
     }
+
+    /* ── Anfahrt ── */
+    .anfahrt {
+      background: var(--grey-light);
+      padding: 80px 32px;
+    }
+    .anfahrt-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .anfahrt-inner { grid-template-columns: 1fr; gap: 32px; } }
+    .anfahrt-info h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .anfahrt-details {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .anfahrt-block h5 {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .anfahrt-block p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #4A4540;
+    }
+    .anfahrt-hours {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+      font-size: 14px;
+      color: #4A4540;
+    }
+    .anfahrt-hours .day {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 13px;
+    }
+    .anfahrt-hours .time {
+      font-size: 13px;
+    }
+    .anfahrt-map {
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .anfahrt-map iframe {
+      width: 100%;
+      height: 380px;
+      border: 0;
+      display: block;
+    }
+    .anfahrt-map-link {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .anfahrt-map-link:hover { color: #F5A623; }
 
     /* ── Footer ── */
     footer {
@@ -522,10 +721,11 @@
       <a href="#chairs">Stühle</a>
       <a href="#services">Werkstatt</a>
       <a href="#about">Über uns</a>
+      <a href="#anfahrt">Anfahrt</a>
       <a href="#contact">Kontakt</a>
     </nav>
     <div class="header-right">
-      <a href="tel:+4930XXXXXXX">030 XXX XX XX</a>
+      <a href="tel:+4930752753">030 7527532</a>
     </div>
   </div>
 </header>
@@ -553,6 +753,7 @@
   <button class="filter-btn" data-filter="holz">Holzsitz</button>
   <button class="filter-btn" data-filter="polster">Polster</button>
   <button class="filter-btn" data-filter="neu">Neue Geflechtstühle</button>
+  <button class="filter-btn" data-filter="set">Sets</button>
 </div>
 
 <div class="product-grid" id="productGrid">
@@ -581,6 +782,67 @@
       <p>Bundesweiter Versand per DHL. Sicherer Transport Ihrer wertvollen Designmöbel direkt zu Ihnen nach Hause.</p>
     </div>
   </div>
+
+  <!-- Geflecht-Galerie -->
+  <div class="geflecht-banner fade-up" style="margin-top:64px">
+    <img src="images/geflecht_hero.jpg" alt="Geflecht-Erneuerung in unserer Werkstatt">
+    <div class="geflecht-banner-overlay">
+      <h3>Geflecht-Erneuerung</h3>
+      <p>Handwerk seit &uuml;ber 30 Jahren &mdash; wir erneuern das Geflecht Ihrer St&uuml;hle fachgerecht und mit Liebe zum Detail.</p>
+    </div>
+  </div>
+
+  <div class="section-title fade-up" style="padding-top:0">
+    <h3>Unsere Geflechtarten</h3>
+  </div>
+
+  <div class="geflecht-grid fade-up">
+    <div class="geflecht-card">
+      <img src="images/geflecht_fertig.jpg" alt="Fertiggeflecht" loading="lazy">
+      <div class="geflecht-card-body">
+        <h4>Fertiggeflecht</h4>
+        <p>Maschinell gewebtes Wiener Geflecht. Wird als Bahn in eine Nut eingesetzt &mdash; die g&uuml;nstigste und schnellste Variante.</p>
+        <div class="geflecht-price">ab &euro;60 pro Stuhl</div>
+        <a href="mailto:info@example.de?subject=Anfrage Fertiggeflecht" class="btn-geflecht">Anfragen</a>
+      </div>
+    </div>
+    <div class="geflecht-card">
+      <img src="images/geflecht_daenisch.jpg" alt="D&auml;nisches Geflecht" loading="lazy">
+      <div class="geflecht-card-body">
+        <h4>D&auml;nisches Geflecht</h4>
+        <p>Papierkordel-Geflecht im skandinavischen Stil. Robust, zeitlos und perfekt f&uuml;r nordisches Design.</p>
+        <div class="geflecht-price">ab &euro;90 pro Stuhl</div>
+        <a href="mailto:info@example.de?subject=Anfrage Dänisches Geflecht" class="btn-geflecht">Anfragen</a>
+      </div>
+    </div>
+    <div class="geflecht-card">
+      <img src="images/geflecht_binsen.jpg" alt="Binsengeflecht" loading="lazy">
+      <div class="geflecht-card-body">
+        <h4>Binsengeflecht</h4>
+        <p>Traditionelles Geflecht aus Binsen oder Seegras. Nat&uuml;rlich, organisch und besonders langlebig.</p>
+        <div class="geflecht-price">ab &euro;100 pro Stuhl</div>
+        <a href="mailto:info@example.de?subject=Anfrage Binsengeflecht" class="btn-geflecht">Anfragen</a>
+      </div>
+    </div>
+    <div class="geflecht-card">
+      <img src="images/geflecht_hand.jpg" alt="Handgekn&uuml;pftes Geflecht" loading="lazy">
+      <div class="geflecht-card-body">
+        <h4>Handgekn&uuml;pftes Geflecht</h4>
+        <p>Klassisches Wiener Geflecht, Streifen f&uuml;r Streifen von Hand geflochten. Die Meisterklasse der Stuhlflechterei.</p>
+        <div class="geflecht-price">ab &euro;150 pro Stuhl</div>
+        <a href="mailto:info@example.de?subject=Anfrage Handgeknüpftes Geflecht" class="btn-geflecht">Anfragen</a>
+      </div>
+    </div>
+    <div class="geflecht-card">
+      <img src="images/geflecht_sonder.jpg" alt="Sonderleistungen" loading="lazy">
+      <div class="geflecht-card-body">
+        <h4>Sonderleistungen</h4>
+        <p>Spezialanfertigungen, Mischgeflechte und individuelle Restaurierungen &mdash; sprechen Sie uns an.</p>
+        <div class="geflecht-price">Auf Anfrage</div>
+        <a href="mailto:info@example.de?subject=Anfrage Sonderleistungen Geflecht" class="btn-geflecht">Anfragen</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- About -->
@@ -589,13 +851,56 @@
     <h3>Über die Werkstatt</h3>
     <p>Seit über 30 Jahren restaurieren wir in Berlin gebrauchte Designerstühle mit Leidenschaft und handwerklichem Können. Spezialisiert auf Thonet und Bauhaus-Klassiker bieten wir eines der größten Sortimente an gebrauchten Markenstühlen in Deutschland.</p>
     <p>Jeder Stuhl wird in unserer Werkstatt sorgfältig geprüft und bei Bedarf aufgearbeitet. Ob Wiener Geflecht, Polsterung oder Chromgestell &mdash; wir geben jedem Stuhl seinen ursprünglichen Glanz zurück.</p>
-    <p><strong>Musterstraße XX, 12XXX Berlin</strong><br>
-    Telefon: 030 XXX XX XX<br>
-    Mobil: 01XX XXXX XXXX<br>
-    info@example.de</p>
+    <p><strong>Klingsorstraße 47, 12167 Berlin-Steglitz</strong><br>
+    Telefon: 030 7527532<br>
+    Mobil: 0151 42409999<br>
+    info@stuhlflechterei.de</p>
   </div>
   <div class="about-img">
     <img src="images/products/thonet0072.jpg" alt="Thonet Stuhl in unserer Werkstatt" loading="lazy">
+  </div>
+</section>
+
+<!-- Anfahrt & Öffnungszeiten -->
+<section class="anfahrt fade-up" id="anfahrt">
+  <div class="anfahrt-inner">
+    <div class="anfahrt-info">
+      <h3>Anfahrt &amp; &Ouml;ffnungszeiten</h3>
+      <div class="anfahrt-details">
+        <div class="anfahrt-block">
+          <h5>Adresse</h5>
+          <p>Stuhlflechterei Erich Meyer<br>
+          Klingsorstra&szlig;e 47<br>
+          12167 Berlin-Steglitz</p>
+        </div>
+        <div class="anfahrt-block">
+          <h5>&Ouml;ffnungszeiten</h5>
+          <div class="anfahrt-hours">
+            <span class="day">Montag</span><span class="time">11:00 &ndash; 16:00</span>
+            <span class="day">Dienstag</span><span class="time">11:00 &ndash; 14:00</span>
+            <span class="day">Mittwoch</span><span class="time">11:00 &ndash; 16:00</span>
+            <span class="day">Donnerstag</span><span class="time">11:00 &ndash; 19:00</span>
+            <span class="day">Freitag</span><span class="time">11:00 &ndash; 14:00</span>
+            <span class="day">Sa &amp; So</span><span class="time">Geschlossen</span>
+          </div>
+        </div>
+        <div class="anfahrt-block">
+          <h5>Kontakt</h5>
+          <p>Telefon: 030 7527532<br>
+          Mobil: 0151 42409999<br>
+          info@stuhlflechterei.de</p>
+        </div>
+        <div class="anfahrt-block">
+          <h5>Anfahrt</h5>
+          <p>S-Bahn Rathaus Steglitz (S1) &mdash; 8 Min. zu Fu&szlig;<br>
+          Bus M82, M85 &mdash; Haltestelle Klingsorstra&szlig;e</p>
+        </div>
+      </div>
+    </div>
+    <div class="anfahrt-map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2432.5!2d13.3249!3d52.4572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a85a0c20e4f3a7%3A0x4b0f9cd2f89c8c69!2sKlingsorstra%C3%9Fe%2047%2C%2012167%20Berlin!5e0!3m2!1sde!2sde!4v1700000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <a href="https://maps.app.goo.gl/46JwLVxYCDyinNi29" target="_blank" rel="noopener" class="anfahrt-map-link">Gr&ouml;&szlig;ere Karte &ouml;ffnen &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -608,20 +913,22 @@
     </div>
     <div class="footer-col">
       <h5>Öffnungszeiten</h5>
-      <p>Mo &ndash; Fr: 10:00 &ndash; 18:00</p>
-      <p>Sa: nach Vereinbarung</p>
-      <p>So: geschlossen</p>
+      <p>Mo: 11 &ndash; 16 Uhr</p>
+      <p>Di: 11 &ndash; 14 Uhr</p>
+      <p>Mi: 11 &ndash; 16 Uhr</p>
+      <p>Do: 11 &ndash; 19 Uhr</p>
+      <p>Fr: 11 &ndash; 14 Uhr</p>
     </div>
     <div class="footer-col">
       <h5>Kontakt</h5>
-      <a href="tel:+4930XXXXXXX">030 XXX XX XX</a>
-      <a href="tel:+491XXXXXXXXX">01XX XXXX XXXX</a>
-      <a href="mailto:info@example.de">info@example.de</a>
+      <a href="tel:+49307527532">030 7527532</a>
+      <a href="tel:+4915142409999">0151 42409999</a>
+      <a href="mailto:info@stuhlflechterei.de">info@stuhlflechterei.de</a>
     </div>
     <div class="footer-col">
       <h5>Adresse</h5>
-      <p>Musterstraße XX</p>
-      <p>12XXX Berlin</p>
+      <p>Klingsorstraße 47</p>
+      <p>12167 Berlin-Steglitz</p>
       <p>Deutschland</p>
     </div>
   </div>
@@ -696,7 +1003,27 @@ const products = [
   {id:"emt079",name:"Thonet 215 F Sessel",brand:"Thonet",price:"420,00",cat:"polster",img:"images/products/thonet0079.jpg",desc:"Thonet 215 F Polstersessel.",specs:"1 von 52 verfügbar",avail:"Auf Anfrage"},
   {id:"emt080",name:"Thonet 215 Stuhl",brand:"Thonet",price:"390,00",cat:"polster",img:"images/products/thonet0080.jpg",desc:"Thonet 215 mit Polster.",specs:"Einzelstück",avail:"Auf Anfrage"},
   {id:"emt102",name:"Thonet 215 PF",brand:"Thonet",price:"420,00",cat:"polster",img:"images/products/thonet0102.jpg",desc:"Thonet 215 PF Polster.",specs:"1 von 108 verfügbar",avail:"Auf Anfrage"},
-  {id:"emt009",name:"Thonet 233 P Stuhl",brand:"Thonet",price:"195,00",cat:"polster",img:"images/products/thonet0009.jpg",desc:"Thonet 233 P Polsterstuhl.",specs:"1 von 9 verfügbar",avail:"Auf Anfrage"}
+  {id:"emt009",name:"Thonet 233 P Stuhl",brand:"Thonet",price:"195,00",cat:"polster",img:"images/products/thonet0009.jpg",desc:"Thonet 233 P Polsterstuhl.",specs:"1 von 9 verfügbar",avail:"Auf Anfrage"},
+  // ── eBay Sets ──
+  {id:"eb01",name:"6× Thonet S 43 Freischwinger Blau",brand:"Thonet / Mart Stam",price:"799,00",cat:"set chrom polster",img:"https://i.ebayimg.com/images/g/vqMAAOSwpORnxkXx/s-l500.jpg",desc:"Set aus 6 Thonet S 43 Freischwingern mit blauem Stoffbezug. Stahlrohr verchromt, Bauhaus-Klassiker von Mart Stam.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608416949"},
+  {id:"eb02",name:"6× Thonet S 43 Freischwinger Gelb",brand:"Thonet / Mart Stam",price:"649,00",cat:"set chrom polster",img:"https://i.ebayimg.com/images/g/0UEAAOSwBqFnxkYd/s-l500.jpg",desc:"Set aus 6 Thonet S 43 Freischwingern mit gelbem Stoffbezug. Stahlrohr verchromt, Design-Klassiker.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608417361"},
+  {id:"eb03",name:"6× Thonet S 43 Freischwinger Rot",brand:"Thonet / Mart Stam",price:"649,00",cat:"set chrom polster",img:"https://i.ebayimg.com/images/g/KqQAAOSwqC1nxkZ1/s-l500.jpg",desc:"Set aus 6 Thonet S 43 Freischwingern mit rotem Stoffbezug. Stahlrohr verchromt, Design-Klassiker.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608418137"},
+  {id:"eb04",name:"6× Thonet S 320 Freischwinger",brand:"Thonet / Wulf Schneider",price:"899,00",cat:"set chrom",img:"https://i.ebayimg.com/images/g/cDQAAOSwGsBnxkOo/s-l500.jpg",desc:"Set aus 6 Thonet S 320 Freischwingern. Design von Wulf Schneider, Stahlrohr verchromt.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608413308"},
+  {id:"eb05",name:"6× Thonet S 320 Holzsitz",brand:"Thonet / Wulf Schneider",price:"899,00",cat:"set chrom holz",img:"https://i.ebayimg.com/images/g/YigAAOSwBqFnxkPX/s-l500.jpg",desc:"Set aus 6 Thonet S 320 mit Holzsitz. Design von Wulf Schneider, Stahlrohr verchromt, Sitz Buchefurnier.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608414064"},
+  {id:"eb06",name:"6× Thonet S 79 V Freischwinger",brand:"Thonet",price:"1.499,00",cat:"set chrom",img:"https://i.ebayimg.com/images/g/vPUAAOSwx-xnxkQQ/s-l500.jpg",desc:"Set aus 6 Thonet S 79 V Freischwingern. Seltener Bauhaus-Klassiker, Stahlrohr verchromt.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608414318"},
+  {id:"eb07",name:"6× Thonet 215 F Polstersessel",brand:"Thonet",price:"1.499,00",cat:"set polster",img:"https://i.ebayimg.com/images/g/LqgAAOSwJwFnxkS0/s-l500.jpg",desc:"Set aus 6 Thonet 215 F / 215 PF Polstersesseln. Bugholz mit Polster, eleganter Klassiker.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608415765"},
+  {id:"eb08",name:"6× Thonet 214 P Polsterstuhl",brand:"Thonet",price:"899,00",cat:"set polster",img:"https://i.ebayimg.com/images/g/e0kAAOSwmR9nxkTT/s-l500.jpg",desc:"Set aus 6 Thonet 214 P Polsterstühlen. Bugholzstuhl mit gepolstertem Sitz.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608415967"},
+  {id:"eb09",name:"6× Thonet 233 Bugholzstuhl",brand:"Thonet",price:"899,00",cat:"set holz",img:"https://i.ebayimg.com/images/g/v28AAOSwJOlnxkTp/s-l500.jpg",desc:"Set aus 6 Thonet 233 Bugholzstühlen. Klassischer Bugholzstuhl, solide Handwerksqualität.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608416194"},
+  {id:"eb10",name:"6× Thonet 140 P Polsterstuhl",brand:"Thonet",price:"799,00",cat:"set polster",img:"https://i.ebayimg.com/images/g/sFUAAOSwhQVnxkUU/s-l500.jpg",desc:"Set aus 6 Thonet 140 P Polsterstühlen. Kompakter Stuhl mit Polstersitz.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608416389"},
+  {id:"eb11",name:"6× Hochlehner Bugholzstuhl",brand:"Thonet",price:"599,00",cat:"set holz",img:"https://i.ebayimg.com/images/g/u-8AAOSwfaFnxkU5/s-l500.jpg",desc:"Set aus 6 Thonet Hochlehner-Bugholzstühlen. Elegante hohe Rückenlehne.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608416575"},
+  {id:"eb12",name:"6× Hochlehner Geflecht",brand:"Thonet",price:"499,00",cat:"set geflecht",img:"https://i.ebayimg.com/images/g/xG4AAOSwBqFnxkVT/s-l500.jpg",desc:"Set aus 6 Thonet Hochlehner mit Wiener Geflecht. Bugholz mit Geflechtsitz und -rücken.",specs:"6 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608416793"},
+  {id:"eb13",name:"4× Sitzgruppe Thonet 215 RF + 215",brand:"Thonet",price:"1.999,00",cat:"set polster",img:"https://i.ebayimg.com/images/g/7e4AAOSwBY5nxkWn/s-l500.jpg",desc:"Exklusive Sitzgruppe: Thonet 215 RF und 215, 4 Stühle. Premium-Ensemble für gehobene Einrichtung.",specs:"4 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608417785"},
+  {id:"eb14",name:"4× Thonet Sitzgruppe Geflecht",brand:"Thonet",price:"899,00",cat:"set geflecht",img:"https://i.ebayimg.com/images/g/~oIAAOSwqf5nxkXD/s-l500.jpg",desc:"Sitzgruppe aus 4 Thonet Geflechtstühlen. Wiener Geflecht, klassisches Ensemble.",specs:"4 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608418415"},
+  {id:"eb15",name:"4× Thonet Sitzgruppe Polster",brand:"Thonet",price:"599,00",cat:"set polster",img:"https://i.ebayimg.com/images/g/ejMAAOSwb0tnxkXb/s-l500.jpg",desc:"Sitzgruppe aus 4 Thonet Polsterstühlen. Gepolsterte Sitze, Bugholzgestell.",specs:"4 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608418645"},
+  {id:"eb16",name:"5× Fritz Hansen Arne Jacobsen",brand:"Fritz Hansen / Arne Jacobsen",price:"999,00",cat:"set holz",img:"https://i.ebayimg.com/images/g/2WkAAOSwEJ9nxkYz/s-l500.jpg",desc:"Set aus 5 Fritz Hansen Stühlen von Arne Jacobsen. Ikonisches dänisches Design.",specs:"5 Stühle im Set",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608417575"},
+  {id:"eb17",name:"Thonet S 79 Freischwinger",brand:"Thonet",price:"150,00",cat:"chrom",img:"https://i.ebayimg.com/images/g/N8gAAOSwx-xnxkQs/s-l500.jpg",desc:"Einzelner Thonet S 79 Freischwinger. Stahlrohr verchromt, Bauhaus-Klassiker.",specs:"Einzelstück",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608414545"},
+  {id:"eb18",name:"Thonet S 570 Stuhl",brand:"Thonet",price:"149,00",cat:"chrom",img:"https://i.ebayimg.com/images/g/1uMAAOSwJwFnxkRH/s-l500.jpg",desc:"Thonet S 570 Design-Stuhl. Stahlrohr verchromt, stapelbar.",specs:"Einzelstück",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608414789"},
+  {id:"eb19",name:"Klöber Freischwinger",brand:"Klöber",price:"80,00",cat:"chrom polster",img:"https://i.ebayimg.com/images/g/DlAAAOSwfaFnxkRt/s-l500.jpg",desc:"Klöber Freischwinger, Stahlrohr verchromt mit Polster. Robuster Bürostuhl.",specs:"Einzelstück",avail:"Auf eBay verfügbar",ebay:"https://www.ebay.de/itm/276608415009"}
 ];
 
 const grid = document.getElementById('productGrid');
@@ -717,6 +1044,10 @@ function renderProducts(filter) {
 
     if (p.avail === 'Sofort lieferbar') {
       card.appendChild(createTextEl('span', 'Sofort lieferbar', 'badge'));
+    }
+    if (p.ebay) {
+      var setLabel = p.cat.indexOf('set') !== -1 ? 'Set · eBay' : 'eBay';
+      card.appendChild(createTextEl('span', setLabel, 'badge-ebay'));
     }
 
     const imgWrap = document.createElement('div');
@@ -765,7 +1096,18 @@ function openModal(p) {
     specsEl.appendChild(createTextEl('div', s.trim()));
   });
 
-  document.getElementById('modalInquire').href = 'mailto:info@example.de?subject=Anfrage: ' + p.name + ' (' + p.id + ')';
+  var inquireBtn = document.getElementById('modalInquire');
+  if (p.ebay) {
+    inquireBtn.href = p.ebay;
+    inquireBtn.target = '_blank';
+    inquireBtn.rel = 'noopener';
+    inquireBtn.textContent = 'Auf eBay kaufen';
+  } else {
+    inquireBtn.href = 'mailto:info@example.de?subject=Anfrage: ' + p.name + ' (' + p.id + ')';
+    inquireBtn.removeAttribute('target');
+    inquireBtn.removeAttribute('rel');
+    inquireBtn.textContent = 'Jetzt anfragen';
+  }
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
