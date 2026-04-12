@@ -4,19 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MEYER CHAIRS &mdash; Gebrauchte Designerstühle aus Berlin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --black: #030303;
-      --white: #ffffff;
-      --blue: rgb(25, 70, 212);
-      --orange: rgb(239, 55, 27);
-      --green: rgb(61, 158, 38);
-      --grey-light: #f5f5f5;
-      --grey-mid: #888;
-      --font: "Helvetica Neue", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --black: #1A1A18;
+      --white: #F5F0EB;
+      --blue: #C4A882;
+      --orange: #C4A882;
+      --green: #8C8279;
+      --grey-light: #EDE8E1;
+      --grey-mid: #8C8279;
+      --accent: #C4A882;
+      --font-heading: "Jost", "Helvetica Neue", sans-serif;
+      --font-body: "Lora", Georgia, serif;
+      --font: var(--font-body);
     }
 
     html { scroll-behavior: smooth; }
@@ -32,6 +38,18 @@
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
     button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    /* ── Font assignments: Jost for headings/UI, Lora for body ── */
+    h1, h2, h3, h4, h5, h6,
+    .logo, nav, .header-right,
+    .filter-btn, .hero-btn, .btn-inquire,
+    .service-card h4, .footer-col h5,
+    .badge, .price, .card-meta,
+    .modal-brand, .modal-price,
+    .section-title h2, .section-title h3,
+    .nav-toggle {
+      font-family: var(--font-heading);
+    }
 
     /* ── Marquee Banner ── */
     .marquee-wrap {
@@ -60,7 +78,7 @@
       top: 0;
       z-index: 100;
       background: var(--white);
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #DDD8D0;
     }
     .header-inner {
       max-width: 1400px;
@@ -108,7 +126,7 @@
         background: var(--white);
         flex-direction: column;
         padding: 20px 32px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #DDD8D0;
         gap: 16px;
       }
       nav.open { display: flex; }
@@ -203,7 +221,7 @@
       letter-spacing: 0.15em;
       text-transform: uppercase;
       padding: 8px 16px;
-      border: 1px solid #ddd;
+      border: 1px solid #C4B9A8;
       border-radius: 0;
       transition: all .2s;
       color: var(--grey-mid);
@@ -266,8 +284,8 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       padding: 3px 8px;
-      background: var(--green);
-      color: var(--white);
+      background: var(--accent);
+      color: var(--black);
       margin-bottom: 6px;
     }
 
@@ -333,7 +351,7 @@
     .about-text p {
       font-size: 14px;
       line-height: 1.8;
-      color: #444;
+      color: #4A4540;
       margin-bottom: 16px;
     }
     .about-img {
@@ -380,7 +398,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding-top: 32px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(245,240,235,0.15);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -445,7 +463,7 @@
     .modal-body .modal-desc {
       font-size: 13px;
       line-height: 1.8;
-      color: #555;
+      color: #5C5550;
       margin-bottom: 24px;
     }
     .modal-body .modal-specs {
@@ -466,7 +484,7 @@
       text-align: center;
       transition: background .2s;
     }
-    .modal-body .btn-inquire:hover { background: var(--blue); }
+    .modal-body .btn-inquire:hover { background: var(--accent); color: var(--black); }
     .modal-close {
       position: absolute;
       top: 16px;
@@ -490,14 +508,6 @@
   </style>
 </head>
 <body>
-
-<!-- Marquee -->
-<div class="marquee-wrap">
-  <div class="marquee-inner">
-    <span>Gebrauchte Designerstühle &bull; Berlin Steglitz &bull; Restaurierung &amp; Verkauf &bull; Thonet &bull; Marcel Breuer &bull; Bauhaus Klassiker &bull; Stuhlflechterei seit 30 Jahren</span>
-    <span>Gebrauchte Designerstühle &bull; Berlin Steglitz &bull; Restaurierung &amp; Verkauf &bull; Thonet &bull; Marcel Breuer &bull; Bauhaus Klassiker &bull; Stuhlflechterei seit 30 Jahren</span>
-  </div>
-</div>
 
 <!-- Header -->
 <header>
@@ -616,7 +626,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2025 Meyer Chairs, Berlin</span>
+    <span>&copy; 2026 Meyer Chairs, Berlin</span>
     <span>Impressum &bull; Datenschutz &bull; AGB</span>
   </div>
 </footer>
