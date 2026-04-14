@@ -119,20 +119,32 @@
     .header-right a { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; }
 
     /* ── Mobile Nav ── */
-    .nav-toggle { display: none; font-size: 24px; color: #fff; }
+    .nav-toggle { display: none; font-size: 28px; color: #fff; line-height: 1; }
     @media (max-width: 768px) {
       .nav-toggle { display: block; }
       nav {
         display: none;
         position: absolute; top: 100%; left: 0; right: 0;
-        background: var(--white);
+        background: var(--black);
         flex-direction: column;
-        padding: 20px 32px;
-        border-bottom: 1px solid #DDD8D0;
-        gap: 16px;
+        padding: 24px 32px;
+        border-top: 1px solid #D83A02;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        gap: 18px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
       }
       nav.open { display: flex; }
+      nav a {
+        color: rgba(255,255,255,0.85);
+        font-size: 13px;
+        padding: 4px 0;
+      }
+      nav a:hover, nav a.active { color: #FA4402; }
       .header-right { gap: 12px; }
+      .header-right a { font-size: 11px; }
+      .logo { font-size: 18px; }
+      .logo small { font-size: 9px; }
+      .header-inner { padding: 14px 20px; }
     }
 
     /* ── Hero ── */
@@ -787,6 +799,81 @@
     .fade-up.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── Mobile Polish ── */
+    @media (max-width: 768px) {
+      /* Hero: kleinere H\u00f6he, angepasster Abstand */
+      .hero { height: 65vh; min-height: 420px; }
+      .hero-content { padding: 0 20px; }
+      .hero-content p { font-size: 12px; letter-spacing: 0.15em; margin-bottom: 24px; }
+      .hero-btn { padding: 12px 28px; font-size: 11px; }
+
+      /* Section Titles */
+      .section-title { padding: 48px 20px 24px; }
+
+      /* Filter Bar: kompaktere Buttons */
+      .filter-bar { gap: 8px; padding: 0 20px 32px; }
+      .filter-btn { font-size: 11px; padding: 7px 12px; letter-spacing: 0.1em; }
+
+      /* Product Grid: weniger Padding */
+      .product-grid { padding: 0 20px 60px; gap: 16px; }
+
+      /* eBay Shop Block: Mobile-Anpassung */
+      .ebay-shop-block { margin-top: 32px; padding: 0 20px; }
+
+      /* Services */
+      .services { padding: 80px 20px 60px; }
+      .services-grid { padding: 0; }
+
+      /* Geflecht Banner */
+      .geflecht-banner img { height: 220px; }
+      .geflecht-banner-overlay h3 { font-size: 22px; }
+      .geflecht-banner-overlay p { font-size: 13px; }
+      .geflecht-grid { padding: 0 20px; gap: 16px; }
+
+      /* About */
+      .about { padding: 60px 20px; }
+
+      /* Anfahrt */
+      .anfahrt { padding: 60px 20px; }
+      .anfahrt-map iframe { height: 280px; }
+
+      /* Footer */
+      footer { padding: 48px 20px 24px; }
+      .footer-bottom { text-align: center; font-size: 10px; }
+
+      /* Modal: Mobile Layout */
+      .modal-overlay { padding: 16px; }
+      .modal { max-height: 94vh; }
+      .modal-img { aspect-ratio: 1; }
+      .modal-body { padding: 28px 24px; }
+      .modal-body h3 { font-size: 18px; }
+      .modal-body .modal-price { font-size: 20px; margin-bottom: 16px; }
+
+      /* Geflecht Card: etwas kompakter */
+      .geflecht-card-body { padding: 12px 10px 16px; }
+      .geflecht-card-body h4 { font-size: 12px; }
+      .geflecht-card-body p { font-size: 11px; }
+    }
+
+    @media (max-width: 480px) {
+      /* Sehr kleine Screens: noch engere Filter-Bar */
+      .filter-bar { gap: 6px; }
+      .filter-btn { font-size: 10px; padding: 6px 10px; }
+
+      /* Hero Titel kleiner */
+      .hero-content h1 { letter-spacing: 0.1em; }
+
+      /* Footer: 1 Spalte auf sehr kleinen Screens */
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+      .footer-col p, .footer-col a { display: block; }
+
+      /* eBay Highlights zentriert */
+      .ebay-highlights { flex-direction: column; gap: 6px; }
+
+      /* Hamburger Button gr\u00f6\u00dfer f\u00fcr Touch */
+      .nav-toggle { font-size: 30px; padding: 4px 8px; }
     }
   </style>
 </head>
