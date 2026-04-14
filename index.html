@@ -577,48 +577,58 @@
     .chip-single    { border: 1px solid var(--grey-mid); color: var(--grey-mid); }
     .chip-featured  { background: var(--accent); color: var(--black); font-weight: 500; }
 
-    /* Featured Card: doppelte Breite + h\u00f6herwertiger Stil */
+    /* Featured Card: doppelte Breite, gro\u00dfes Bild im Fokus */
     .product-card.featured {
       grid-column: span 2;
       background: var(--grey-light);
-      padding: 24px;
+      padding: 32px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1.8fr 1fr;
+      gap: 32px;
       align-items: center;
     }
-    .product-card.featured .badge-group { order: -1; grid-column: 1 / -1; }
+    .product-card.featured .badge-group { order: -1; grid-column: 1 / -1; margin-bottom: 0; }
     .product-card.featured .img-wrap {
-      aspect-ratio: 1;
+      aspect-ratio: 5/4;
       margin-bottom: 0;
+      background: var(--white);
+    }
+    .product-card.featured .img-wrap img {
+      object-fit: cover;
     }
     .product-card.featured .card-info {
-      padding: 12px 8px;
+      padding: 16px 8px;
     }
     .product-card.featured .card-info h4 {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 300;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      line-height: 1.25;
     }
     .product-card.featured .card-meta {
       font-size: 11px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--grey-mid);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
-    .product-card.featured .price { font-size: 18px; margin-bottom: 16px; }
+    .product-card.featured .price { font-size: 22px; margin-bottom: 18px; }
     .product-card.featured .featured-desc {
       font-size: 13px;
       line-height: 1.7;
       color: #4A4540;
       margin-bottom: 16px;
     }
-    @media (max-width: 900px) {
-      .product-card.featured { grid-column: span 2; grid-template-columns: 1fr; gap: 16px; padding: 16px; }
-      .product-card.featured .card-info h4 { font-size: 18px; }
+    @media (max-width: 1024px) {
+      .product-card.featured { grid-template-columns: 1.5fr 1fr; padding: 24px; gap: 24px; }
+      .product-card.featured .card-info h4 { font-size: 22px; }
+    }
+    @media (max-width: 768px) {
+      .product-card.featured { grid-column: span 2; grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+      .product-card.featured .img-wrap { aspect-ratio: 4/3; }
+      .product-card.featured .card-info h4 { font-size: 19px; }
     }
     @media (max-width: 480px) {
       .product-card.featured { grid-column: span 1; }
@@ -658,10 +668,10 @@
       margin: 0 auto;
       padding: 0 32px 80px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
     }
-    @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
     @media (max-width: 768px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .product-grid { grid-template-columns: 1fr; } }
 
@@ -1148,20 +1158,29 @@
     .modal-overlay.open { display: flex; }
     .modal {
       background: var(--white);
-      max-width: 900px;
+      max-width: 1120px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.3fr 1fr;
     }
     @media (max-width: 768px) { .modal { grid-template-columns: 1fr; } }
     .modal-img {
-      aspect-ratio: 4/5;
+      position: relative;
+      min-height: 100%;
       overflow: hidden;
       background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
     .modal-body {
       padding: 40px;
       display: flex;
@@ -1826,7 +1845,7 @@
       /* Modal: Mobile Layout */
       .modal-overlay { padding: 16px; }
       .modal { max-height: 94vh; }
-      .modal-img { aspect-ratio: 1; }
+      .modal-img { aspect-ratio: 4/5; min-height: auto; }
       .modal-body { padding: 28px 24px; }
       .modal-body h3 { font-size: 18px; }
       .modal-body .modal-price { font-size: 20px; margin-bottom: 16px; }
