@@ -12,20 +12,34 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
+      /* Core Palette */
       --black: #1A1A18;
       --white: #F5F0EB;
-      --blue: #C4A882;
-      --orange: #C4A882;
-      --green: #8C8279;
       --grey-light: #EDE8E1;
       --grey-mid: #8C8279;
-      --accent: #C4A882;
+      --grey-soft: #DDD8D0;
+
+      /* Accent */
+      --accent: #C4A882;        /* warmes Beige (Akzent) */
+      --accent-deep: #A8906B;
+      --signal: #FA4402;        /* RAL 2017 Orange (Header, CTA-Highlight) */
+      --signal-deep: #D83A02;
+
+      /* Typography */
       --font-heading: "Jost", "Helvetica Neue", sans-serif;
       --font-body: "Lora", Georgia, serif;
       --font: var(--font-body);
+
+      /* Layout */
+      --header-height: 76px;
+      --max-w: 1400px;
+      --max-w-content: 1200px;
     }
 
     html { scroll-behavior: smooth; }
+
+    /* Anker nicht unter sticky Header schieben */
+    section[id], div[id] { scroll-margin-top: calc(var(--header-height) + 20px); }
 
     body {
       font-family: var(--font);
@@ -51,34 +65,13 @@
       font-family: var(--font-heading);
     }
 
-    /* ── Marquee Banner ── */
-    .marquee-wrap {
-      background: #FF6F00;
-      color: var(--white);
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 10px 0;
-      font-size: 13px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .marquee-inner {
-      display: inline-block;
-      animation: marquee 25s linear infinite;
-    }
-    .marquee-inner span { padding: 0 3em; }
-    @keyframes marquee {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
     /* ── Header ── */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #FA4402;
-      border-bottom: 1px solid #D83A02;
+      background: var(--signal);
+      border-bottom: 1px solid var(--signal-deep);
       color: #fff;
     }
     .header-inner {
@@ -128,7 +121,7 @@
         background: var(--black);
         flex-direction: column;
         padding: 24px 32px;
-        border-top: 1px solid #D83A02;
+        border-top: 1px solid var(--signal-deep);
         border-bottom: 1px solid rgba(255,255,255,0.08);
         gap: 18px;
         box-shadow: 0 8px 24px rgba(0,0,0,0.25);
@@ -139,7 +132,7 @@
         font-size: 13px;
         padding: 4px 0;
       }
-      nav a:hover, nav a.active { color: #FA4402; }
+      nav a:hover, nav a.active { color: var(--signal); }
       .header-right { gap: 12px; }
       .header-right a { font-size: 11px; }
       .logo { font-size: 18px; }
@@ -164,6 +157,54 @@
       background: url('images/products/Freischwinger%20S64%20von%20Marcel%20Breuer.jpg') center/cover;
       filter: brightness(0.4) contrast(1.1);
       transform: scale(1.05);
+      animation: kenBurns 22s ease-in-out infinite alternate;
+    }
+    @keyframes kenBurns {
+      from { transform: scale(1.05) translate(0, 0); }
+      to   { transform: scale(1.15) translate(-1.5%, -1%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg { animation: none; }
+    }
+    /* KPI-Streifen unter Hero */
+    .hero-kpis {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: rgba(26,26,24,0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      z-index: 3;
+    }
+    .hero-kpi {
+      padding: 18px 20px;
+      text-align: center;
+      color: var(--white);
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-kpi:last-child { border-right: none; }
+    .hero-kpi-num {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .hero-kpi-label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    @media (max-width: 600px) {
+      .hero-kpis { grid-template-columns: 1fr; }
+      .hero-kpi { padding: 10px 16px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .hero-kpi:last-child { border-bottom: none; }
+      .hero-kpi-num { font-size: 16px; }
     }
     .hero-content {
       position: relative;
@@ -173,12 +214,15 @@
       padding: 0 32px;
     }
     .hero-content h1 {
-      font-size: clamp(32px, 5vw, 64px);
+      font-size: clamp(26px, 5vw, 64px);
       font-weight: 300;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       line-height: 1.2;
       margin-bottom: 16px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
     }
     .hero-content p {
       font-size: 14px;
@@ -187,19 +231,215 @@
       opacity: 0.85;
       margin-bottom: 32px;
     }
+    /* ── Unified Button System ── */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 14px 32px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+    .btn-primary:hover {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--black);
+      border-color: var(--black);
+    }
+    .btn-secondary:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+    .btn-ghost-light {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--white);
+    }
+    .btn-ghost-light:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+    .btn-sm { padding: 9px 20px; font-size: 11px; letter-spacing: 0.14em; }
+    .btn-lg { padding: 18px 44px; font-size: 13px; letter-spacing: 0.2em; }
+    .btn-signal {
+      background: var(--signal);
+      color: #fff;
+      border-color: var(--signal);
+    }
+    .btn-signal:hover {
+      background: var(--signal-deep);
+      border-color: var(--signal-deep);
+    }
+
+    /* Legacy Button-Klassen auf Unified System ausgerichtet */
     .hero-btn {
       display: inline-block;
-      padding: 14px 40px;
-      border: 1px solid var(--white);
-      color: var(--white);
-      font-size: 12px;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      transition: all .3s;
+      padding: 16px 40px;
+      border: 1px solid var(--white);
+      color: var(--white);
+      background: transparent;
+      transition: all .25s ease;
     }
     .hero-btn:hover {
       background: var(--white);
       color: var(--black);
+    }
+
+    /* ── Werkstatt-Strip ("Hinter den Kulissen") ── */
+    .workshop-strip {
+      background: var(--black);
+      color: var(--white);
+      padding: 80px 0 0;
+      overflow: hidden;
+    }
+    .workshop-strip-head {
+      max-width: var(--max-w-content);
+      margin: 0 auto 40px;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+    .workshop-strip-head .eyebrow {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 12px;
+    }
+    .workshop-strip-head h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .workshop-strip-head p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(245,240,235,0.7);
+      max-width: 420px;
+    }
+    .workshop-gallery {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr 1.3fr;
+      gap: 2px;
+    }
+    .workshop-img {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #222;
+    }
+    .workshop-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s ease, filter .5s ease;
+      filter: grayscale(15%) brightness(0.9);
+    }
+    .workshop-img:hover img {
+      transform: scale(1.06);
+      filter: grayscale(0%) brightness(1);
+    }
+    .workshop-img-caption {
+      position: absolute;
+      left: 14px; bottom: 14px;
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: rgba(0,0,0,0.5);
+      padding: 4px 10px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    @media (max-width: 900px) {
+      .workshop-strip-head { grid-template-columns: 1fr; gap: 16px; }
+      .workshop-gallery {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 72%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 20px 20px;
+      }
+      .workshop-img { scroll-snap-align: start; aspect-ratio: 4/5; }
+      .workshop-strip { padding: 60px 0 0; }
+      .workshop-strip-head { padding: 0 20px; margin-bottom: 28px; }
+    }
+
+    /* ── USP / Trust Strip ── */
+    .usp-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-soft);
+      padding: 48px 32px;
+    }
+    .usp-inner {
+      max-width: var(--max-w-content);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .usp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .usp-icon {
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--black);
+    }
+    .usp-text h5 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .usp-text p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--grey-mid);
+    }
+    @media (max-width: 768px) {
+      .usp-inner { grid-template-columns: 1fr; gap: 24px; }
+      .usp-strip { padding: 32px 20px; }
     }
 
     /* ── Section Titles ── */
@@ -223,26 +463,193 @@
     }
 
     /* ── Filter Nav ── */
+    .filter-row {
+      max-width: var(--max-w-content);
+      margin: 0 auto;
+      padding: 0 32px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .product-count {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+    }
+    .product-count strong { color: var(--black); font-weight: 500; }
+    .filter-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tool-select {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      padding: 9px 30px 9px 12px;
+      background: transparent;
+      border: 1px solid var(--grey-soft);
+      color: var(--black);
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, var(--grey-mid) 50%),
+                        linear-gradient(135deg, var(--grey-mid) 50%, transparent 50%);
+      background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      transition: border-color .2s ease;
+    }
+    .tool-select:focus { outline: none; border-color: var(--black); }
+    .search-wrap {
+      position: relative;
+      min-width: 200px;
+    }
+    .search-wrap input {
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 9px 14px;
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--grey-soft);
+      color: var(--black);
+      transition: border-color .2s ease;
+    }
+    .search-wrap input:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+    .search-wrap input::placeholder { color: var(--grey-mid); }
     .filter-bar {
       display: flex;
       justify-content: center;
-      gap: 24px;
+      gap: 16px;
       padding: 0 32px 40px;
       flex-wrap: wrap;
     }
     .filter-btn {
+      font-family: var(--font-heading);
       font-size: 12px;
+      font-weight: 400;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       padding: 8px 16px;
-      border: 1px solid #C4B9A8;
-      border-radius: 0;
-      transition: all .2s;
+      border: 1px solid var(--grey-soft);
+      background: transparent;
       color: var(--grey-mid);
+      transition: all .2s ease;
     }
     .filter-btn:hover, .filter-btn.active {
       border-color: var(--black);
       color: var(--black);
+    }
+    .filter-btn.active {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* ── Produktkarten Badges ── */
+    .badge-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+      min-height: 18px;
+    }
+    .chip {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      line-height: 1.4;
+    }
+    .chip-new       { background: var(--signal); color: #fff; }
+    .chip-available { background: var(--black); color: var(--white); }
+    .chip-rare      { background: var(--accent); color: var(--black); }
+    .chip-single    { border: 1px solid var(--grey-mid); color: var(--grey-mid); }
+    .chip-featured  { background: var(--accent); color: var(--black); font-weight: 500; }
+
+    /* Featured Card: doppelte Breite + h\u00f6herwertiger Stil */
+    .product-card.featured {
+      grid-column: span 2;
+      background: var(--grey-light);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .product-card.featured .badge-group { order: -1; grid-column: 1 / -1; }
+    .product-card.featured .img-wrap {
+      aspect-ratio: 1;
+      margin-bottom: 0;
+    }
+    .product-card.featured .card-info {
+      padding: 12px 8px;
+    }
+    .product-card.featured .card-info h4 {
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .product-card.featured .card-meta {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+    }
+    .product-card.featured .price { font-size: 18px; margin-bottom: 16px; }
+    .product-card.featured .featured-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #4A4540;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) {
+      .product-card.featured { grid-column: span 2; grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+      .product-card.featured .card-info h4 { font-size: 18px; }
+    }
+    @media (max-width: 480px) {
+      .product-card.featured { grid-column: span 1; }
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--grey-mid);
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* Loading Skeleton */
+    .skeleton-card { pointer-events: none; }
+    .skeleton-card .img-wrap,
+    .skeleton-card .sk-line {
+      background: linear-gradient(90deg, var(--grey-light) 0%, var(--grey-soft) 50%, var(--grey-light) 100%);
+      background-size: 200% 100%;
+      animation: skeletonPulse 1.4s ease-in-out infinite;
+    }
+    .skeleton-card .sk-line {
+      height: 10px;
+      margin-bottom: 8px;
+    }
+    .skeleton-card .sk-line.short { width: 40%; }
+    .skeleton-card .sk-line.long { width: 80%; }
+    @keyframes skeletonPulse {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     /* ── Product Grid ── */
@@ -292,16 +699,6 @@
       font-size: 14px;
       font-weight: 500;
     }
-    .product-card .badge {
-      display: inline-block;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      background: var(--accent);
-      color: var(--black);
-      margin-bottom: 6px;
-    }
     /* ── eBay-Shop Block ── */
     .ebay-shop-block {
       max-width: 900px;
@@ -348,43 +745,53 @@
     }
     .btn-ebay-shop {
       display: inline-block;
-      padding: 12px 28px;
-      background: #FA4402;
-      color: #fff;
       font-family: var(--font-heading);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      border-radius: 3px;
-      transition: background 0.2s;
+      padding: 14px 32px;
+      background: var(--signal);
+      color: #fff;
+      border: 1px solid var(--signal);
+      transition: background .25s ease, border-color .25s ease;
     }
-    .btn-ebay-shop:hover { background: #D83A02; }
+    .btn-ebay-shop:hover {
+      background: var(--signal-deep);
+      border-color: var(--signal-deep);
+    }
     .ebay-shop-badge {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      min-width: 100px;
+      align-items: flex-start;
+      justify-content: center;
+      min-width: 120px;
+      padding-left: 32px;
+      border-left: 1px solid rgba(255,255,255,0.12);
+    }
+    .ebay-badge-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
     }
     .ebay-badge-icon {
-      font-size: 28px;
-      color: #FA4402;
-      margin-bottom: 4px;
+      font-size: 14px;
+      color: var(--signal);
     }
     .ebay-badge-count {
       font-family: var(--font-heading);
-      font-size: 36px;
-      font-weight: 700;
+      font-size: 22px;
+      font-weight: 500;
       line-height: 1;
+      color: rgba(255,255,255,0.85);
     }
     .ebay-badge-label {
       font-family: var(--font-heading);
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      opacity: 0.6;
-      margin-top: 4px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.5);
     }
     @media (max-width: 600px) {
       .ebay-shop-inner {
@@ -474,7 +881,28 @@
       color: rgba(245,240,235,0.85);
       font-size: 15px;
       max-width: 500px;
+      margin-bottom: 18px;
     }
+    .geflecht-banner-cta {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 10px 22px;
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: background .25s ease, border-color .25s ease;
+    }
+    .geflecht-banner:hover .geflecht-banner-cta {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+    .geflecht-banner { cursor: pointer; }
+    .geflecht-banner img { transition: transform .8s ease; }
+    .geflecht-banner:hover img { transform: scale(1.03); }
     .geflecht-grid {
       max-width: 1200px;
       margin: 0 auto;
@@ -528,19 +956,23 @@
     }
     .geflecht-card-body .btn-geflecht {
       display: inline-block;
-      margin-top: 10px;
-      padding: 6px 16px;
+      margin-top: 12px;
+      padding: 9px 20px;
       font-family: var(--font-heading);
       font-size: 11px;
-      letter-spacing: 0.1em;
+      font-weight: 500;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       background: var(--black);
       color: var(--white);
+      border: 1px solid var(--black);
       text-decoration: none;
-      transition: background 0.2s;
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
     }
     .geflecht-card-body .btn-geflecht:hover {
-      background: #333;
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
     }
 
     /* ── About ── */
@@ -658,7 +1090,7 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-    .anfahrt-map-link:hover { color: #F5A623; }
+    .anfahrt-map-link:hover { color: var(--signal); }
 
     /* ── Footer ── */
     footer {
@@ -747,7 +1179,7 @@
       font-size: 12px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--accent-deep);
       margin-bottom: 16px;
     }
     .modal-body .modal-price {
@@ -761,25 +1193,74 @@
       color: #5C5550;
       margin-bottom: 24px;
     }
-    .modal-body .modal-specs {
-      font-size: 12px;
+    .modal-avail {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--grey-mid);
-      line-height: 2;
-      margin-bottom: 24px;
+      padding: 4px 10px;
+      border: 1px solid var(--grey-soft);
+      margin-bottom: 16px;
     }
-    .modal-body .modal-specs div { font-weight: 400; }
+    .modal-avail.available {
+      color: var(--black);
+      border-color: var(--black);
+    }
+    .modal-section {
+      margin-bottom: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--grey-soft);
+    }
+    .modal-section h5 {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 10px;
+    }
+    .modal-dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .modal-dl dt {
+      font-family: var(--font-heading);
+      color: var(--grey-mid);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .modal-dl dd { color: var(--black); }
+    .modal-dl-meta dt {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
     .modal-body .btn-inquire {
       display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       padding: 14px 32px;
       background: var(--black);
       color: var(--white);
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      border: 1px solid var(--black);
       text-align: center;
-      transition: background .2s;
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
     }
-    .modal-body .btn-inquire:hover { background: var(--accent); color: var(--black); }
+    .modal-body .btn-inquire:hover {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
+    }
     .modal-close {
       position: absolute;
       top: 16px;
@@ -788,6 +1269,472 @@
       color: var(--white);
       z-index: 201;
       cursor: pointer;
+    }
+
+    /* ── Floating Contact Bar (Mobile) ── */
+    .floating-contact {
+      display: none;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 90;
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+    }
+    .floating-contact a {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      transition: background .2s ease;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .floating-contact a:last-child { border-right: none; }
+    .floating-contact a:hover,
+    .floating-contact a:active { background: var(--signal); }
+    .floating-contact .fc-icon {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+      opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+      .floating-contact { display: flex; }
+      /* Space am Seitenende, damit Footer nicht verdeckt wird */
+      footer { padding-bottom: 80px; }
+    }
+
+    /* ── Instagram-Einbettung ── */
+    .ig-section {
+      background: var(--white);
+      padding: 80px 32px 0;
+      border-top: 1px solid var(--grey-soft);
+    }
+    .ig-inner { max-width: var(--max-w-content); margin: 0 auto; text-align: center; }
+    .ig-inner h2 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+    .ig-inner h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .ig-handle {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+    .ig-handle a { color: var(--signal); transition: color .2s ease; }
+    .ig-handle a:hover { color: var(--signal-deep); }
+    .ig-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
+      margin-bottom: 40px;
+    }
+    .ig-follow-btn:hover {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
+    }
+    .ig-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid currentColor;
+      border-radius: 4px;
+      position: relative;
+    }
+    .ig-icon::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1.5px solid currentColor;
+      border-radius: 50%;
+    }
+    .ig-icon::after {
+      content: "";
+      position: absolute;
+      top: 1px; right: 1px;
+      width: 3px; height: 3px;
+      background: currentColor;
+      border-radius: 50%;
+    }
+    /* Leerer Account: Platzhalter-Grid mit dezentem Hinweis */
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+    }
+    .ig-tile {
+      aspect-ratio: 1;
+      background: var(--grey-light);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ig-tile::before {
+      content: "";
+      width: 24px;
+      height: 24px;
+      border: 1px dashed var(--grey-mid);
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    .ig-coming-soon {
+      text-align: center;
+      margin-top: 20px;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      padding-bottom: 80px;
+    }
+    @media (max-width: 900px) { .ig-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 600px) {
+      .ig-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+      .ig-section { padding: 48px 16px 0; }
+      .ig-coming-soon { padding-bottom: 48px; }
+    }
+
+    /* ── Newsletter ── */
+    .newsletter-section {
+      background: var(--black);
+      color: var(--white);
+      padding: 72px 32px;
+    }
+    .newsletter-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .newsletter-inner h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .newsletter-inner p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(245,240,235,0.75);
+      margin-bottom: 28px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .newsletter-form {
+      display: flex;
+      max-width: 520px;
+      margin: 0 auto 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 14px 18px;
+      background: transparent;
+      border: none;
+      color: var(--white);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .newsletter-form input[type="email"]::placeholder {
+      color: rgba(245,240,235,0.5);
+    }
+    .newsletter-form input[type="email"]:focus { background: rgba(255,255,255,0.04); }
+    .newsletter-form button {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0 28px;
+      background: var(--signal);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background .25s ease;
+    }
+    .newsletter-form button:hover { background: var(--signal-deep); }
+    .newsletter-fine {
+      font-size: 11px;
+      color: rgba(245,240,235,0.5);
+      letter-spacing: 0.04em;
+    }
+    .newsletter-fine a { text-decoration: underline; }
+    .newsletter-success {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(250,68,2,0.15);
+      border-left: 2px solid var(--signal);
+      color: var(--white);
+      font-size: 13px;
+      text-align: left;
+    }
+    .newsletter-success.visible { display: block; }
+    @media (max-width: 600px) {
+      .newsletter-section { padding: 48px 20px; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input[type="email"] { font-size: 16px; padding: 14px 16px; text-align: center; }
+      .newsletter-form button { padding: 14px 20px; }
+    }
+
+    /* ── Kontaktformular ── */
+    .contact-form-section {
+      background: var(--grey-light);
+      padding: 80px 32px;
+      border-top: 1px solid var(--grey-soft);
+    }
+    .contact-form-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .contact-form-title { text-align: center; margin-bottom: 40px; }
+    .contact-form-title h2 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+    .contact-form-title h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .contact-form-title p {
+      font-size: 14px;
+      color: #4A4540;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-field { display: flex; flex-direction: column; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+    .form-field label .req { color: var(--signal); margin-left: 3px; }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 12px 14px;
+      background: var(--white);
+      border: 1px solid var(--grey-soft);
+      color: var(--black);
+      transition: border-color .2s ease;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    .form-field textarea {
+      resize: vertical;
+      min-height: 140px;
+      font-family: var(--font-body);
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+    .form-field input:invalid:not(:placeholder-shown),
+    .form-field textarea:invalid:not(:placeholder-shown) {
+      border-color: var(--signal);
+    }
+    .form-field select {
+      background-image: linear-gradient(45deg, transparent 50%, var(--grey-mid) 50%),
+                        linear-gradient(135deg, var(--grey-mid) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 36px;
+    }
+    .form-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #4A4540;
+    }
+    .form-consent input {
+      margin-top: 3px;
+      flex-shrink: 0;
+      -webkit-appearance: checkbox;
+      appearance: checkbox;
+      width: auto;
+    }
+    .form-consent a { text-decoration: underline; }
+    .form-submit {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      cursor: pointer;
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
+      justify-self: start;
+    }
+    .form-submit:hover {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
+    }
+    .form-success {
+      display: none;
+      grid-column: 1 / -1;
+      padding: 16px 20px;
+      background: var(--white);
+      border-left: 3px solid var(--signal);
+      font-size: 14px;
+      color: #4A4540;
+    }
+    .form-success.visible { display: block; }
+    @media (max-width: 768px) {
+      .contact-form-section { padding: 48px 20px; }
+      .contact-form { grid-template-columns: 1fr; gap: 16px; }
+      .form-submit { width: 100%; text-align: center; }
+      .contact-form-title { margin-bottom: 28px; }
+      .contact-form-title p { font-size: 13px; }
+      /* iOS: font-size \u2265 16px verhindert Auto-Zoom beim Fokus */
+      .form-field input,
+      .form-field select,
+      .form-field textarea { font-size: 16px; padding: 14px 14px; }
+      .form-field textarea { min-height: 120px; }
+      .form-field label { font-size: 10px; }
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      background: var(--white);
+      padding: 80px 32px;
+      border-top: 1px solid var(--grey-soft);
+    }
+    .faq-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .faq-title h2 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+    .faq-title h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--grey-soft);
+    }
+    .faq-item[open] { background: rgba(196,168,130,0.04); }
+    .faq-item summary {
+      list-style: none;
+      padding: 22px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      transition: color .2s ease;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:hover { color: var(--signal); }
+    .faq-item summary::after {
+      content: "+";
+      font-family: var(--font-heading);
+      font-size: 22px;
+      line-height: 1;
+      color: var(--grey-mid);
+      transition: transform .25s ease, color .2s ease;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after {
+      content: "\u2013";
+      color: var(--signal);
+    }
+    .faq-answer {
+      padding: 0 8px 24px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #4A4540;
+    }
+    @media (max-width: 768px) {
+      .faq { padding: 60px 20px; }
+      .faq-title { margin-bottom: 32px; }
+      .faq-item summary { font-size: 14px; padding: 18px 4px; }
+      .faq-answer { padding: 0 4px 20px; font-size: 13px; }
     }
 
     /* ── Scroll Animations ── */
@@ -799,6 +1746,39 @@
     .fade-up.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Gestaffelte Animation f\u00fcr Produktkarten & Geflecht-Karten */
+    .product-card, .geflecht-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .product-card.visible, .geflecht-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Stagger via nth-child: f\u00fcr die ersten 16 Karten je 60ms Offset */
+    .product-card.visible:nth-child(1)  { transition-delay: 0ms; }
+    .product-card.visible:nth-child(2)  { transition-delay: 60ms; }
+    .product-card.visible:nth-child(3)  { transition-delay: 120ms; }
+    .product-card.visible:nth-child(4)  { transition-delay: 180ms; }
+    .product-card.visible:nth-child(5)  { transition-delay: 220ms; }
+    .product-card.visible:nth-child(6)  { transition-delay: 260ms; }
+    .product-card.visible:nth-child(7)  { transition-delay: 300ms; }
+    .product-card.visible:nth-child(8)  { transition-delay: 340ms; }
+    .geflecht-card.visible:nth-child(1) { transition-delay: 0ms; }
+    .geflecht-card.visible:nth-child(2) { transition-delay: 80ms; }
+    .geflecht-card.visible:nth-child(3) { transition-delay: 160ms; }
+    .geflecht-card.visible:nth-child(4) { transition-delay: 240ms; }
+    .geflecht-card.visible:nth-child(5) { transition-delay: 320ms; }
+
+    /* Section Divider (feiner, atmender \u00dcbergang) */
+    .section-divider {
+      max-width: var(--max-w-content);
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--grey-soft), transparent);
     }
 
     /* ── Mobile Polish ── */
@@ -855,15 +1835,50 @@
       .geflecht-card-body { padding: 12px 10px 16px; }
       .geflecht-card-body h4 { font-size: 12px; }
       .geflecht-card-body p { font-size: 11px; }
+
+      /* Hero: Platz f\u00fcr die gestapelten KPIs am unteren Rand */
+      .hero { min-height: 560px; }
+      .hero-content { padding-bottom: 180px; }
+
+      /* Geflecht-Banner: h\u00f6her, damit CTA-Button Platz hat */
+      .geflecht-banner img { height: 260px; }
+      .geflecht-banner-overlay { padding: 20px 16px; }
+      .geflecht-banner-overlay p { margin-bottom: 14px; }
+      .geflecht-banner-cta { font-size: 10px; padding: 8px 16px; letter-spacing: 0.15em; }
+
+      /* Filter-Row: saubere gestapelte Darstellung */
+      .filter-row { flex-direction: column; align-items: stretch; gap: 12px; padding: 0 20px 16px; }
+      .product-count { text-align: center; font-size: 11px; }
+      .search-wrap { min-width: 0; width: 100%; }
+      .search-wrap input { font-size: 16px; padding: 12px 14px; }
+      .filter-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .filter-tools .search-wrap { grid-column: 1 / -1; }
+      .tool-select { font-size: 13px; padding: 11px 30px 11px 12px; width: 100%; }
+
+      /* USP */
+      .usp-strip { padding: 32px 20px; }
+      .usp-item { gap: 12px; }
+
+      /* Anfahrt-Stunden */
+      .anfahrt-hours { grid-template-columns: 1fr auto; font-size: 13px; }
+
+      /* FAQ */
+      .faq { padding: 48px 16px; }
     }
 
     @media (max-width: 480px) {
       /* Sehr kleine Screens: noch engere Filter-Bar */
-      .filter-bar { gap: 6px; }
+      .filter-bar { gap: 6px; padding: 0 16px 28px; }
       .filter-btn { font-size: 10px; padding: 6px 10px; }
 
       /* Hero Titel kleiner */
       .hero-content h1 { letter-spacing: 0.1em; }
+      .hero-content { padding: 0 16px 180px; }
+
+      /* Header: Telefonnummer rechts ausblenden, Logo-Subline weglassen */
+      .header-right { display: none; }
+      .logo small { display: none; }
+      .header-inner { padding: 12px 16px; }
 
       /* Footer: 1 Spalte auf sehr kleinen Screens */
       .footer-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
@@ -874,6 +1889,21 @@
 
       /* Hamburger Button gr\u00f6\u00dfer f\u00fcr Touch */
       .nav-toggle { font-size: 30px; padding: 4px 8px; }
+
+      /* eBay-Shop-Block: Badge sinnvoll auf schmal */
+      .ebay-shop-badge { padding-left: 0; border-left: none; padding-top: 20px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); align-items: center; text-align: center; }
+
+      /* USP Icon kleiner */
+      .usp-icon { width: 36px; height: 36px; flex: 0 0 36px; font-size: 16px; }
+      .usp-text h5 { font-size: 12px; }
+      .usp-text p { font-size: 12px; }
+
+      /* Modal Close-Button etwas komfortabler treffen */
+      .modal-close { top: 10px; right: 14px; font-size: 32px; padding: 4px 8px; }
+
+      /* Hero-KPIs: kompaktere Labels */
+      .hero-kpi { padding: 8px 12px; }
+      .hero-kpi-label { font-size: 9px; letter-spacing: 0.14em; }
     }
   </style>
 </head>
@@ -894,7 +1924,8 @@
       <a href="#about">Über uns</a>
       <a href="#ebay-shop">eBay-Shop</a>
       <a href="#anfahrt">Anfahrt</a>
-      <a href="#contact">Kontakt</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt-formular">Kontakt</a>
     </nav>
     <div class="header-right">
       <a href="tel:+493012345678">030 1234 5678</a>
@@ -906,9 +1937,41 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <h1>Zeitlose<br>Designklassiker</h1>
-    <p>Gebrauchte Thonet &amp; Bauhaus Stühle &mdash; restauriert in Berlin</p>
+    <h1>Restaurierte<br>Thonet- und Bauhaus-Klassiker</h1>
+    <p>Aus Berlin &mdash; seit 1995</p>
     <a href="#chairs" class="hero-btn">Kollektion entdecken</a>
+  </div>
+  <div class="hero-kpis">
+    <div class="hero-kpi"><span class="hero-kpi-num">1.200+</span><span class="hero-kpi-label">St&uuml;hle im Sortiment</span></div>
+    <div class="hero-kpi"><span class="hero-kpi-num">30</span><span class="hero-kpi-label">Jahre Werkstatt</span></div>
+    <div class="hero-kpi"><span class="hero-kpi-num">DE&middot;AT&middot;CH</span><span class="hero-kpi-label">Versand in D, A, CH</span></div>
+  </div>
+</section>
+
+<!-- USP / Trust Strip -->
+<section class="usp-strip fade-up">
+  <div class="usp-inner">
+    <div class="usp-item">
+      <div class="usp-icon">&#9674;</div>
+      <div class="usp-text">
+        <h5>Gro&szlig;es Thonet-Sortiment</h5>
+        <p>&Uuml;ber 1.200 gebrauchte Markenst&uuml;hle &mdash; individuell restauriert in unserer Berliner Werkstatt.</p>
+      </div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon">&#9881;</div>
+      <div class="usp-text">
+        <h5>Werkstatt seit 1995</h5>
+        <p>Drei Jahrzehnte Erfahrung in Stuhlflechterei, Polsterung und Restaurierung. Handwerk, kein Industrieprodukt.</p>
+      </div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon">&rarr;</div>
+      <div class="usp-text">
+        <h5>Direkt &amp; pers&ouml;nlich</h5>
+        <p>Keine Zwischenh&auml;ndler. Beratung, Kauf und Versand laufen direkt &uuml;ber uns &mdash; deutschlandweit sowie nach &Ouml;sterreich und in die Schweiz.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -916,6 +1979,32 @@
 <div class="section-title fade-up" id="chairs">
   <h2>Kollektion</h2>
   <h3>Gebrauchte Markenstühle</h3>
+</div>
+
+<div class="filter-row fade-up">
+  <div class="product-count">Zeigt <strong id="productCount">0</strong> von <strong id="productTotal">0</strong> St&uuml;hlen</div>
+  <div class="filter-tools">
+    <div class="search-wrap">
+      <input type="search" id="productSearch" placeholder="Marke, Modell, Designer suchen&hellip;" aria-label="Produktsuche">
+    </div>
+    <select id="designerFilter" class="tool-select" aria-label="Designer filtern">
+      <option value="all">Alle Designer</option>
+    </select>
+    <select id="priceFilter" class="tool-select" aria-label="Preisklasse">
+      <option value="all">Alle Preise</option>
+      <option value="0-200">bis 200 &euro;</option>
+      <option value="200-300">200 &ndash; 300 &euro;</option>
+      <option value="300-500">300 &ndash; 500 &euro;</option>
+      <option value="500-99999">ab 500 &euro;</option>
+    </select>
+    <select id="sortBy" class="tool-select" aria-label="Sortierung">
+      <option value="default">Sortierung</option>
+      <option value="price-asc">Preis aufsteigend</option>
+      <option value="price-desc">Preis absteigend</option>
+      <option value="name-asc">Name A&ndash;Z</option>
+      <option value="featured">Highlights zuerst</option>
+    </select>
+  </div>
 </div>
 
 <div class="filter-bar fade-up">
@@ -940,14 +2029,16 @@
         <li>Sitzgruppen ab <strong>25 &euro;</strong></li>
         <li>2er- bis 6er-Sets</li>
         <li>Thonet, Fritz Hansen, Kl&ouml;ber u.&thinsp;a.</li>
-        <li>Bundesweiter Versand</li>
+        <li>Versand in DE, AT, CH</li>
       </ul>
       <a href="https://www.ebay.de/str/muster-shop" target="_blank" rel="noopener" class="btn-ebay-shop">Zum eBay-Shop &rarr;</a>
     </div>
     <div class="ebay-shop-badge">
-      <span class="ebay-badge-icon">&#9733;</span>
-      <span class="ebay-badge-count">45+</span>
-      <span class="ebay-badge-label">Inserate</span>
+      <div class="ebay-badge-row">
+        <span class="ebay-badge-icon">&#9733;</span>
+        <span class="ebay-badge-count">45+ aktive Inserate</span>
+      </div>
+      <span class="ebay-badge-label">Wechselndes Sortiment</span>
     </div>
   </div>
 </div>
@@ -972,20 +2063,21 @@
     <div class="service-card">
       <div class="service-icon">&rarr;</div>
       <h4>Versand</h4>
-      <p>Bundesweiter Versand per DHL. Sicherer Transport Ihrer wertvollen Designmöbel direkt zu Ihnen nach Hause.</p>
+      <p>Versand per DHL in Deutschland sowie nach &Ouml;sterreich und in die Schweiz. Sicherer Transport Ihrer wertvollen Designm&ouml;bel direkt zu Ihnen nach Hause.</p>
     </div>
   </div>
 
   <!-- Geflecht-Galerie -->
-  <div class="geflecht-banner fade-up" style="margin-top:64px">
+  <a href="#geflechtarten" class="geflecht-banner fade-up" style="margin-top:64px; display:block; text-decoration:none;">
     <img src="images/geflecht_hero.jpg" alt="Geflecht-Erneuerung in unserer Werkstatt">
     <div class="geflecht-banner-overlay">
       <h3>Geflecht-Erneuerung</h3>
       <p>Handwerk seit &uuml;ber 30 Jahren &mdash; wir erneuern das Geflecht Ihrer St&uuml;hle fachgerecht und mit Liebe zum Detail.</p>
+      <span class="geflecht-banner-cta">Geflechtarten entdecken &darr;</span>
     </div>
-  </div>
+  </a>
 
-  <div class="section-title fade-up" style="padding-top:0">
+  <div class="section-title fade-up" id="geflechtarten" style="padding-top:0">
     <h3>Unsere Geflechtarten</h3>
   </div>
 
@@ -1038,16 +2130,47 @@
   </div>
 </section>
 
+<!-- Werkstatt-Strip (Hinter den Kulissen) -->
+<section class="workshop-strip fade-up" id="werkstatt-einblicke">
+  <div class="workshop-strip-head">
+    <div>
+      <div class="eyebrow">Hinter den Kulissen</div>
+      <h3>In der Werkstatt</h3>
+    </div>
+    <p>Jeder Stuhl durchl&auml;uft bei uns dieselben Schritte wie vor hundert Jahren: Bestandsaufnahme, Freilegen, Erneuern, Polieren. Kein Industrieprozess, sondern ein Zwiegespr&auml;ch mit dem Handwerk.</p>
+  </div>
+  <div class="workshop-gallery">
+    <div class="workshop-img">
+      <img src="images/geflecht_hand.jpg" alt="Wiener Geflecht von Hand gekn&uuml;pft" loading="lazy">
+      <span class="workshop-img-caption">Wiener Geflecht</span>
+    </div>
+    <div class="workshop-img">
+      <img src="images/geflecht_sonder.jpg" alt="Detailarbeit am Geflecht" loading="lazy">
+      <span class="workshop-img-caption">Detailarbeit</span>
+    </div>
+    <div class="workshop-img">
+      <img src="images/geflecht_fertig.jpg" alt="Fertiggeflecht in der Werkstatt" loading="lazy">
+      <span class="workshop-img-caption">Werkstatt</span>
+    </div>
+    <div class="workshop-img">
+      <img src="images/geflecht_daenisch.jpg" alt="D&auml;nisches Geflecht" loading="lazy">
+      <span class="workshop-img-caption">D&auml;nisches Geflecht</span>
+    </div>
+    <div class="workshop-img">
+      <img src="images/geflecht_hero.jpg" alt="Bugholzstuhl nach der Restaurierung" loading="lazy">
+      <span class="workshop-img-caption">Fertiggestellt</span>
+    </div>
+  </div>
+</section>
+
 <!-- About -->
 <section class="about fade-up" id="about">
   <div class="about-text">
     <h3>Über die Werkstatt</h3>
     <p>Seit über 30 Jahren restaurieren wir in Berlin gebrauchte Designerstühle mit Leidenschaft und handwerklichem Können. Spezialisiert auf Thonet und Bauhaus-Klassiker bieten wir eines der größten Sortimente an gebrauchten Markenstühlen in Deutschland.</p>
-    <p>Jeder Stuhl wird in unserer Werkstatt sorgfältig geprüft und bei Bedarf aufgearbeitet. Ob Wiener Geflecht, Polsterung oder Chromgestell &mdash; wir geben jedem Stuhl seinen ursprünglichen Glanz zurück.</p>
-    <p><strong>Musterstra&szlig;e 1, 10115 Berlin-Mitte</strong><br>
-    Telefon: 030 1234 5678<br>
-    Mobil: 0151 42409999<br>
-    info@muster-stuehle.de</p>
+    <p>Jeder Stuhl wird in unserer Werkstatt sorgf&auml;ltig gepr&uuml;ft und bei Bedarf aufgearbeitet. Ob Wiener Geflecht, Polsterung oder Chromgestell &mdash; wir geben jedem Stuhl seinen urspr&uuml;nglichen Glanz zur&uuml;ck.</p>
+    <p>Handwerk ist f&uuml;r uns kein Etikett, sondern gelebte Praxis. Wir arbeiten mit den gleichen Techniken, die vor hundert Jahren in den Thonet-Manufakturen entwickelt wurden &mdash; und geben sie an die n&auml;chste Generation weiter.</p>
+    <a href="#anfahrt" class="btn btn-secondary" style="margin-top:8px">Termin vereinbaren</a>
   </div>
   <div class="about-img">
     <img src="images/products/thonet0072.jpg" alt="Thonet Stuhl in unserer Werkstatt" loading="lazy">
@@ -1097,6 +2220,158 @@
   </div>
 </section>
 
+<!-- Kontaktformular -->
+<section class="contact-form-section fade-up" id="kontakt-formular">
+  <div class="contact-form-inner">
+    <div class="contact-form-title">
+      <h2>Kontakt</h2>
+      <h3>Nachricht senden</h3>
+      <p>Fragen zu einem bestimmten Stuhl, zur Geflechterneuerung oder zu Lieferung und Versand? Schreiben Sie uns &mdash; wir melden uns in der Regel innerhalb eines Werktags.</p>
+    </div>
+    <form class="contact-form" id="contactForm" novalidate>
+      <div class="form-field">
+        <label for="cf-name">Name <span class="req">*</span></label>
+        <input type="text" id="cf-name" name="name" placeholder="Ihr Name" required>
+      </div>
+      <div class="form-field">
+        <label for="cf-email">E-Mail <span class="req">*</span></label>
+        <input type="email" id="cf-email" name="email" placeholder="name@beispiel.de" required>
+      </div>
+      <div class="form-field">
+        <label for="cf-phone">Telefon (optional)</label>
+        <input type="tel" id="cf-phone" name="phone" placeholder="F&uuml;r R&uuml;ckfragen">
+      </div>
+      <div class="form-field">
+        <label for="cf-topic">Anliegen <span class="req">*</span></label>
+        <select id="cf-topic" name="topic" required>
+          <option value="" disabled selected>Bitte w&auml;hlen &hellip;</option>
+          <option value="Kauf">Kaufanfrage zu einem Stuhl</option>
+          <option value="Geflecht">Geflechterneuerung</option>
+          <option value="Restaurierung">Restaurierung</option>
+          <option value="Set">Sitzgruppe / Set</option>
+          <option value="Versand">Versand &amp; Lieferung</option>
+          <option value="Sonstiges">Sonstiges</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label for="cf-msg">Nachricht <span class="req">*</span></label>
+        <textarea id="cf-msg" name="message" placeholder="Ihre Nachricht an uns &hellip;" required></textarea>
+      </div>
+      <div class="form-field full">
+        <label class="form-consent">
+          <input type="checkbox" id="cf-consent" required>
+          <span>Ich habe die <a href="rechtliches/datenschutz.html" target="_blank" rel="noopener">Datenschutz&shy;erkl&auml;rung</a> zur Kenntnis genommen und stimme der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage zu.</span>
+        </label>
+      </div>
+      <div class="form-field full">
+        <button type="submit" class="form-submit">Nachricht senden</button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <strong>Vielen Dank!</strong> Ihr E-Mail-Programm &ouml;ffnet sich gleich mit der vorbereiteten Nachricht. Bitte klicken Sie dort auf &bdquo;Senden&ldquo;, um die Anfrage abzuschlie&szlig;en.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq fade-up" id="faq">
+  <div class="faq-inner">
+    <div class="faq-title">
+      <h2>H&auml;ufige Fragen</h2>
+      <h3>FAQ</h3>
+    </div>
+
+    <details class="faq-item">
+      <summary>Kann ich die St&uuml;hle vor Ort ansehen und Probesitzen?</summary>
+      <div class="faq-answer">
+        Ja, sehr gerne. Unsere Werkstatt in Berlin ist w&auml;hrend der &Ouml;ffnungszeiten ge&ouml;ffnet. F&uuml;r gr&ouml;&szlig;ere Mengen oder Sitzgruppen empfehlen wir eine kurze Terminabsprache per Telefon oder E-Mail.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Was kostet der Versand?</summary>
+      <div class="faq-answer">
+        Die Versandkosten richten sich nach Gr&ouml;&szlig;e, Gewicht und Lieferadresse. F&uuml;r einen einzelnen Stuhl rechnen Sie mit ca. 15&ndash;30&thinsp;&euro; innerhalb Deutschlands. Versand nach &Ouml;sterreich und in die Schweiz ist ebenfalls m&ouml;glich &mdash; die Kosten nennen wir Ihnen gerne auf Anfrage. Bei gr&ouml;&szlig;eren Mengen bieten wir Speditionsversand an.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Sind alle St&uuml;hle original?</summary>
+      <div class="faq-answer">
+        Unsere Thonet- und Bauhaus-Klassiker sind originale Manufakturst&uuml;cke &mdash; gebraucht, gepr&uuml;ft und bei Bedarf fachgerecht restauriert. Bei einzelnen Modellen bieten wir auch hochwertige Nachbauten an; diese sind klar gekennzeichnet (Kategorie &bdquo;Neue Geflechtst&uuml;hle&ldquo;).
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Kann ich einen Stuhl mit alten oder kaputten Geflechten zur Reparatur bringen?</summary>
+      <div class="faq-answer">
+        Ja, genau das ist unser Kerngesch&auml;ft. Wir erneuern Wiener Geflecht, Binsengeflecht, Papierkordelgeflecht und Sonderformen &mdash; sprechen Sie uns gerne an. Eine Begutachtung vor Ort oder per Foto ist kostenlos.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Wie lange dauert eine Geflechterneuerung?</summary>
+      <div class="faq-answer">
+        Die Dauer h&auml;ngt von Art und Gr&ouml;&szlig;e des Geflechts ab. Ein maschinelles Fertiggeflecht ist meist innerhalb von 1&ndash;2 Wochen fertig, handgekn&uuml;pftes Wiener Geflecht kann je nach Auslastung 3&ndash;6 Wochen in Anspruch nehmen.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Gibt es ein R&uuml;ckgaberecht?</summary>
+      <div class="faq-answer">
+        Verbraucher haben ein gesetzliches Widerrufsrecht von 14 Tagen ab Erhalt der Ware. Details finden Sie in unseren <a href="rechtliches/agb.html">AGB</a>.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Kann ich gr&ouml;&szlig;ere Mengen f&uuml;r Gastronomie oder B&uuml;ro bestellen?</summary>
+      <div class="faq-answer">
+        Ja &mdash; wir liefern regelm&auml;&szlig;ig an Cafés, Restaurants, Kanzleien und Co-Working-Spaces. F&uuml;r Mengen ab 6 St&uuml;ck erstellen wir gerne ein individuelles Angebot.
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- Instagram -->
+<section class="ig-section fade-up" id="instagram">
+  <div class="ig-inner">
+    <h2>Instagram</h2>
+    <h3>Neues aus Werkstatt &amp; Sortiment</h3>
+    <div class="ig-handle">
+      <a href="https://www.instagram.com/stuhl.galerie/" target="_blank" rel="noopener">@stuhl.galerie</a>
+    </div>
+    <a href="https://www.instagram.com/stuhl.galerie/" target="_blank" rel="noopener" class="ig-follow-btn">
+      <span class="ig-icon" aria-hidden="true"></span>
+      Auf Instagram folgen
+    </a>
+    <div class="ig-grid" aria-label="Instagram-Beitr&auml;ge">
+      <div class="ig-tile"></div>
+      <div class="ig-tile"></div>
+      <div class="ig-tile"></div>
+      <div class="ig-tile"></div>
+      <div class="ig-tile"></div>
+      <div class="ig-tile"></div>
+    </div>
+    <div class="ig-coming-soon">Beitr&auml;ge folgen in K&uuml;rze &mdash; demn&auml;chst mehr</div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section fade-up" id="newsletter">
+  <div class="newsletter-inner">
+    <h3>Neueintr&auml;ge im Postfach</h3>
+    <p>Einmal im Monat eine Auswahl frisch eingetroffener St&uuml;hle und Geschichten aus der Werkstatt. Keine Werbung, kein Spam.</p>
+    <form class="newsletter-form" id="newsletterForm" novalidate>
+      <input type="email" id="newsletterEmail" placeholder="Ihre E-Mail-Adresse" required aria-label="E-Mail-Adresse">
+      <button type="submit">Abonnieren</button>
+    </form>
+    <div class="newsletter-fine">Mit dem Abonnieren stimmen Sie der <a href="rechtliches/datenschutz.html">Datenschutz&shy;erkl&auml;rung</a> zu. Abmeldung jederzeit m&ouml;glich.</div>
+    <div class="newsletter-success" id="newsletterSuccess">
+      <strong>Danke!</strong> Wir haben Ihre Anmeldung erhalten. Eine Best&auml;tigungsmail ist unterwegs.
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer id="contact">
   <div class="footer-grid">
@@ -1105,43 +2380,62 @@
       <p>Gebrauchte Designerst&uuml;hle &amp; Stuhlflechterei in Berlin.</p>
     </div>
     <div class="footer-col">
-      <h5>Öffnungszeiten</h5>
-      <p>Mo: 11 &ndash; 16 Uhr</p>
-      <p>Di: 11 &ndash; 14 Uhr</p>
-      <p>Mi: 11 &ndash; 16 Uhr</p>
-      <p>Do: 11 &ndash; 19 Uhr</p>
-      <p>Fr: 11 &ndash; 14 Uhr</p>
+      <h5>Navigation</h5>
+      <a href="#chairs">Kollektion</a>
+      <a href="#services">Werkstatt</a>
+      <a href="#ebay-shop">eBay-Shop</a>
+      <a href="#anfahrt">Anfahrt</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://www.instagram.com/stuhl.galerie/" target="_blank" rel="noopener">Instagram</a>
     </div>
     <div class="footer-col">
       <h5>Kontakt</h5>
       <a href="tel:+493012345678">030 1234 5678</a>
-      <a href="tel:+4915142409999">0151 42409999</a>
       <a href="mailto:info@muster-stuehle.de">info@muster-stuehle.de</a>
+      <p style="margin-top:8px">Musterstra&szlig;e 1<br>10115 Berlin-Mitte</p>
     </div>
     <div class="footer-col">
-      <h5>Adresse</h5>
-      <p>Musterstra&szlig;e 1</p>
-      <p>10115 Berlin-Mitte</p>
-      <p>Deutschland</p>
+      <h5>Rechtliches</h5>
+      <a href="rechtliches/impressum.html">Impressum</a>
+      <a href="rechtliches/datenschutz.html">Datenschutz</a>
+      <a href="rechtliches/agb.html">AGB</a>
     </div>
   </div>
   <div class="footer-bottom">
     <span>&copy; 2026 Meyer Chairs, Berlin</span>
-    <span>Impressum &bull; Datenschutz &bull; AGB</span>
+    <span>Werkstatt und Ausstellung in Berlin-Mitte</span>
   </div>
 </footer>
 
+
+<!-- Floating Contact Bar (nur Mobile) -->
+<nav class="floating-contact" aria-label="Schnellkontakt">
+  <a href="tel:+493012345678"><span class="fc-icon">&#9742;</span>Anrufen</a>
+  <a href="mailto:info@muster-stuehle.de"><span class="fc-icon">&#9993;</span>E-Mail</a>
+  <a href="https://wa.me/4915142409999" target="_blank" rel="noopener"><span class="fc-icon">&#128172;</span>WhatsApp</a>
+</nav>
+
 <!-- Modal -->
 <div class="modal-overlay" id="modal">
-  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <span class="modal-close" onclick="closeModal()" role="button" aria-label="Schlie&szlig;en" tabindex="0">&times;</span>
   <div class="modal">
     <div class="modal-img"><img id="modalImg" src="" alt=""></div>
     <div class="modal-body">
-      <h3 id="modalTitle"></h3>
       <div class="modal-brand" id="modalBrand"></div>
+      <h3 id="modalTitle"></h3>
       <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-avail" id="modalAvail"></div>
       <div class="modal-desc" id="modalDesc"></div>
-      <div class="modal-specs" id="modalSpecs"></div>
+
+      <div class="modal-section" id="modalDimsWrap" hidden>
+        <h5>Ma&szlig;e</h5>
+        <dl class="modal-dl" id="modalDims"></dl>
+      </div>
+
+      <div class="modal-section" id="modalMetaWrap" hidden>
+        <dl class="modal-dl modal-dl-meta" id="modalMeta"></dl>
+      </div>
+
       <a href="mailto:info@muster-stuehle.de?subject=Anfrage" class="btn-inquire" id="modalInquire">Jetzt anfragen</a>
     </div>
   </div>
@@ -1149,7 +2443,7 @@
 
 <script>
 const products = [
-  {id:"n002",name:"Freischwinger Schwarz Geflecht",brand:"Marcel Breuer Style",price:"255,00",cat:"neu",img:"images/products/n002_500.jpg",desc:"Schwingstuhl, stapelbar. Gestell aus Stahlrohr verchromt, Holzrahmen schwarz lackiert, Sitz und Rücken echtes Flechtwerk, natur lackiert.",specs:"Sitzhöhe: 48 cm | Höhe: 86 cm | Breite: 51 cm | Tiefe: 51 cm | 7 kg",avail:"Sofort lieferbar"},
+  {id:"n002",name:"Freischwinger Schwarz Geflecht",brand:"Marcel Breuer Style",price:"255,00",cat:"neu",img:"images/products/n002_500.jpg",desc:"Schwingstuhl, stapelbar. Gestell aus Stahlrohr verchromt, Holzrahmen schwarz lackiert, Sitz und Rücken echtes Flechtwerk, natur lackiert.",specs:"Sitzhöhe: 48 cm | Höhe: 86 cm | Breite: 51 cm | Tiefe: 51 cm | 7 kg",avail:"Sofort lieferbar",featured:true,condition:"Neuware",material:"Stahlrohr verchromt, Buche natur lackiert, Flechtwerk Rattan",delivery:"Verpackung, Aufbauanleitung, DHL-Versand"},
   {id:"n003",name:"Freischwinger Schwarz Armlehne",brand:"Marcel Breuer Style",price:"295,00",cat:"neu",img:"images/products/n003_500.jpg",desc:"Schwingstuhl mit Armlehnen, stapelbar. Stahlrohr verchromt, Holzrahmen schwarz lackiert, Sitz und Rücken echtes Flechtwerk, Armlehnen Buche massiv.",specs:"Sitzhöhe: 48 cm | Höhe: 83 cm | Breite: 72 cm | Tiefe: 51 cm | 8 kg",avail:"Sofort lieferbar"},
   {id:"n004",name:"Freischwinger Buche Armlehne",brand:"Marcel Breuer Style",price:"255,00",cat:"neu",img:"images/products/n004_500.jpg",desc:"Schwingstuhl in Buche natur mit Geflecht. Stahlrohr verchromt, Buchenholzrahmen natur lackiert, Armlehnen Buche massiv.",specs:"Sitzhöhe: 48 cm | Höhe: 83 cm | Breite: 72 cm | Tiefe: 51 cm | 8 kg",avail:"Sofort lieferbar"},
   {id:"n005",name:"Freischwinger Natur Geflecht",brand:"Marcel Breuer Style",price:"295,00",cat:"neu",img:"images/products/n005_500.jpg",desc:"Freischwinger in natur mit Geflecht in Sitz und Lehne. Stahlrohr verchromt, Holzrahmen natur lackiert.",specs:"Sitzhöhe: 48 cm | Höhe: 86 cm | Breite: 51 cm | Tiefe: 51 cm | 7 kg",avail:"Sofort lieferbar"},
@@ -1168,7 +2462,7 @@ const products = [
   {id:"emt132",name:"Thonet S 43 Rot",brand:"Thonet / Mart Stam",price:"269,00",cat:"chrom polster",img:"images/products/thonet0132.jpg",desc:"Freischwinger Thonet Mart Stam S 43, Design-Klassiker, roter Stoff.",specs:"1 von 108 verfügbar",avail:"Auf Anfrage"},
   {id:"emt142",name:"Thonet Freischwinger Polstersessel",brand:"Thonet",price:"449,00",cat:"chrom polster",img:"images/products/thonet0142.jpg",desc:"Thonet Freischwinger Designstuhl, Polstersessel.",specs:"1 von 16 verfügbar",avail:"Auf Anfrage"},
   {id:"emt124",name:"Thonet S 570",brand:"Thonet",price:"229,00",cat:"chrom",img:"images/products/thonet0124.jpg",desc:"Thonet S 570 Design Stahlrohrmöbel.",specs:"1 von 9 verfügbar",avail:"Auf Anfrage"},
-  {id:"emt016",name:"Thonet 214 F Sessel",brand:"Thonet",price:"249,00",cat:"geflecht",img:"images/products/thonet0016.jpg",desc:"Geflecht Sessel, Thonet 214 F. Wiener Geflecht in Sitz und Rücken.",specs:"Einzelstück",avail:"Auf Anfrage"},
+  {id:"emt016",name:"Thonet 214 F Sessel",brand:"Thonet",price:"249,00",cat:"geflecht",img:"images/products/thonet0016.jpg",desc:"Geflecht Sessel, Thonet 214 F. Wiener Geflecht in Sitz und Rücken. Ikonischer Kaffeehausstuhl in restauriertem Zustand.",specs:"Sitzhöhe: 46 cm | Höhe: 84 cm | Breite: 52 cm | Tiefe: 48 cm",avail:"Auf Anfrage",featured:true,condition:"Restauriert, Wiener Geflecht erneuert",material:"Bugholz Buche, Wiener Geflecht",delivery:"Abholung oder Versand nach Absprache"},
   {id:"emt017",name:"Thonet 214 Geflechtstuhl",brand:"Thonet",price:"220,00",cat:"geflecht",img:"images/products/thonet0017.jpg",desc:"Thonet 214 Stuhl mit originalem Wiener Geflecht.",specs:"1 von 6 verfügbar",avail:"Auf Anfrage"},
   {id:"emt094",name:"Thonet 214 Geflechtstuhl",brand:"Thonet",price:"220,00",cat:"geflecht",img:"images/products/thonet0094.jpg",desc:"Thonet 214 Klassiker mit Geflecht.",specs:"1 von 9 verfügbar",avail:"Auf Anfrage"},
   {id:"emt101",name:"Thonet Geflechtstuhl",brand:"Thonet",price:"195,00",cat:"geflecht",img:"images/products/thonet0101.jpg",desc:"Thonet Geflecht Stuhl.",specs:"1 von 8 verfügbar",avail:"Auf Anfrage"},
@@ -1208,46 +2502,221 @@ function createTextEl(tag, text, className) {
   return el;
 }
 
-function renderProducts(filter) {
-  grid.textContent = '';
-  const filtered = filter === 'all' ? products : products.filter(function(p) { return p.cat.indexOf(filter) !== -1; });
-  filtered.forEach(function(p, i) {
-    const card = document.createElement('div');
-    card.className = 'product-card fade-up';
+var currentFilter = 'all';
+var currentSearch = '';
+var currentDesigner = 'all';
+var currentPrice = 'all';
+var currentSort = 'default';
+var renderedCount = 0;
+var BATCH_SIZE = 16;
+var countEl = document.getElementById('productCount');
+var totalEl = document.getElementById('productTotal');
+if (totalEl) totalEl.textContent = products.length;
 
-    if (p.avail === 'Sofort lieferbar') {
-      card.appendChild(createTextEl('span', 'Sofort lieferbar', 'badge'));
-    }
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'img-wrap';
-    const img = document.createElement('img');
-    img.src = p.img;
-    img.alt = p.name;
-    img.loading = 'lazy';
-    imgWrap.appendChild(img);
-    card.appendChild(imgWrap);
-
-    const info = document.createElement('div');
-    info.className = 'card-info';
-    info.appendChild(createTextEl('div', p.brand, 'card-meta'));
-    info.appendChild(createTextEl('h4', p.name));
-    info.appendChild(createTextEl('div', '\u20AC' + p.price, 'price'));
-    card.appendChild(info);
-
-    card.addEventListener('click', function() { openModal(p); });
-    grid.appendChild(card);
-    setTimeout(function() { card.classList.add('visible'); }, 50 + i * 30);
+// Designer-Liste aus dem Katalog ableiten
+(function populateDesigners() {
+  var sel = document.getElementById('designerFilter');
+  if (!sel) return;
+  var set = {};
+  products.forEach(function(p) {
+    (p.brand || '').split('/').forEach(function(part) {
+      var name = part.trim();
+      if (name && name !== 'Thonet') set[name] = true;
+    });
   });
+  // Thonet oben
+  sel.appendChild(Object.assign(document.createElement('option'), { value: 'Thonet', textContent: 'Thonet' }));
+  Object.keys(set).sort().forEach(function(name) {
+    sel.appendChild(Object.assign(document.createElement('option'), { value: name, textContent: name }));
+  });
+})();
+
+function priceMatch(p) {
+  if (currentPrice === 'all') return true;
+  var num = parseFloat((p.price || '0').replace(/\./g, '').replace(',', '.'));
+  var parts = currentPrice.split('-');
+  return num >= parseFloat(parts[0]) && num < parseFloat(parts[1]);
 }
 
-renderProducts('all');
+function designerMatch(p) {
+  if (currentDesigner === 'all') return true;
+  return (p.brand || '').indexOf(currentDesigner) !== -1;
+}
+
+function sortProducts(list) {
+  var arr = list.slice();
+  if (currentSort === 'price-asc' || currentSort === 'price-desc') {
+    arr.sort(function(a, b) {
+      var na = parseFloat((a.price || '0').replace(/\./g, '').replace(',', '.'));
+      var nb = parseFloat((b.price || '0').replace(/\./g, '').replace(',', '.'));
+      return currentSort === 'price-asc' ? na - nb : nb - na;
+    });
+  } else if (currentSort === 'name-asc') {
+    arr.sort(function(a, b) { return (a.name || '').localeCompare(b.name || ''); });
+  } else if (currentSort === 'featured') {
+    arr.sort(function(a, b) { return (b.featured ? 1 : 0) - (a.featured ? 1 : 0); });
+  }
+  return arr;
+}
+
+function getBadges(p) {
+  var badges = [];
+  if (p.featured) badges.push({ label: 'Highlight', cls: 'chip-featured' });
+  if (p.cat.indexOf('neu') !== -1) badges.push({ label: 'Neu', cls: 'chip-new' });
+  if (p.avail === 'Sofort lieferbar') badges.push({ label: 'Sofort lieferbar', cls: 'chip-available' });
+  if (p.specs && /Einzelst/i.test(p.specs)) badges.push({ label: 'Einzelst\u00fcck', cls: 'chip-single' });
+  else if (p.specs && /1 von [2-6] verf/i.test(p.specs)) badges.push({ label: 'Rar', cls: 'chip-rare' });
+  return badges;
+}
+
+function matchesSearch(p, q) {
+  if (!q) return true;
+  q = q.toLowerCase();
+  return (p.name && p.name.toLowerCase().indexOf(q) !== -1)
+      || (p.brand && p.brand.toLowerCase().indexOf(q) !== -1)
+      || (p.desc && p.desc.toLowerCase().indexOf(q) !== -1);
+}
+
+var currentFiltered = [];
+var sentinel;
+
+function buildCard(p, idx) {
+  var card = document.createElement('div');
+  card.className = 'product-card' + (p.featured ? ' featured' : '');
+
+  var badgeGroup = document.createElement('div');
+  badgeGroup.className = 'badge-group';
+  getBadges(p).forEach(function(b) {
+    badgeGroup.appendChild(createTextEl('span', b.label, 'chip ' + b.cls));
+  });
+  card.appendChild(badgeGroup);
+
+  var imgWrap = document.createElement('div');
+  imgWrap.className = 'img-wrap';
+  var img = document.createElement('img');
+  img.src = p.img;
+  img.alt = p.name;
+  img.loading = 'lazy';
+  imgWrap.appendChild(img);
+  card.appendChild(imgWrap);
+
+  var info = document.createElement('div');
+  info.className = 'card-info';
+  info.appendChild(createTextEl('div', p.brand, 'card-meta'));
+  info.appendChild(createTextEl('h4', p.name));
+  info.appendChild(createTextEl('div', p.price + '\u00A0\u20AC', 'price'));
+  if (p.featured && p.desc) info.appendChild(createTextEl('p', p.desc, 'featured-desc'));
+  card.appendChild(info);
+
+  card.addEventListener('click', function() { openModal(p); });
+  setTimeout(function() { card.classList.add('visible'); }, 30 + (idx % BATCH_SIZE) * 20);
+  return card;
+}
+
+function renderNextBatch() {
+  var end = Math.min(renderedCount + BATCH_SIZE, currentFiltered.length);
+  for (var i = renderedCount; i < end; i++) {
+    grid.appendChild(buildCard(currentFiltered[i], i));
+  }
+  renderedCount = end;
+  if (sentinel) {
+    if (renderedCount >= currentFiltered.length) {
+      sentinel.style.display = 'none';
+    } else {
+      sentinel.style.display = 'block';
+    }
+  }
+}
+
+function showSkeleton() {
+  grid.textContent = '';
+  for (var i = 0; i < 8; i++) {
+    var sk = document.createElement('div');
+    sk.className = 'product-card skeleton-card visible';
+    sk.innerHTML = '<div class="img-wrap"></div><div class="card-info"><div class="sk-line short"></div><div class="sk-line long"></div><div class="sk-line short"></div></div>';
+    grid.appendChild(sk);
+  }
+}
+
+function renderProducts() {
+  showSkeleton();
+  setTimeout(function() {
+    grid.textContent = '';
+    renderedCount = 0;
+
+    currentFiltered = products.filter(function(p) {
+      var catMatch = currentFilter === 'all' || p.cat.indexOf(currentFilter) !== -1;
+      return catMatch && matchesSearch(p, currentSearch) && designerMatch(p) && priceMatch(p);
+    });
+    currentFiltered = sortProducts(currentFiltered);
+    if (countEl) countEl.textContent = currentFiltered.length;
+
+    if (currentFiltered.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = 'Keine Treffer. Bitte Suche oder Filter anpassen.';
+      grid.appendChild(empty);
+      return;
+    }
+
+    renderNextBatch();
+    // Sentinel f\u00fcr Lazy-Load
+    if (!sentinel) {
+      sentinel = document.createElement('div');
+      sentinel.id = 'gridSentinel';
+      sentinel.style.gridColumn = '1 / -1';
+      sentinel.style.height = '1px';
+      var lazyObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && renderedCount < currentFiltered.length) {
+          renderNextBatch();
+        }
+      });
+      lazyObs.observe(sentinel);
+      sentinel.__obs = lazyObs;
+    }
+    grid.appendChild(sentinel);
+  }, 140);
+}
+
+renderProducts();
 
 document.querySelectorAll('.filter-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-    renderProducts(btn.dataset.filter);
+    currentFilter = btn.dataset.filter;
+    renderProducts();
   });
+});
+
+var searchInput = document.getElementById('productSearch');
+if (searchInput) {
+  var debounce;
+  searchInput.addEventListener('input', function(e) {
+    clearTimeout(debounce);
+    debounce = setTimeout(function() {
+      currentSearch = e.target.value.trim();
+      renderProducts();
+    }, 160);
+  });
+}
+
+var designerSel = document.getElementById('designerFilter');
+if (designerSel) designerSel.addEventListener('change', function(e) {
+  currentDesigner = e.target.value;
+  renderProducts();
+});
+
+var priceSel = document.getElementById('priceFilter');
+if (priceSel) priceSel.addEventListener('change', function(e) {
+  currentPrice = e.target.value;
+  renderProducts();
+});
+
+var sortSel = document.getElementById('sortBy');
+if (sortSel) sortSel.addEventListener('change', function(e) {
+  currentSort = e.target.value;
+  renderProducts();
 });
 
 function openModal(p) {
@@ -1255,14 +2724,57 @@ function openModal(p) {
   document.getElementById('modalImg').alt = p.name;
   document.getElementById('modalTitle').textContent = p.name;
   document.getElementById('modalBrand').textContent = p.brand;
-  document.getElementById('modalPrice').textContent = '\u20AC' + p.price;
+  document.getElementById('modalPrice').textContent = p.price + '\u00A0\u20AC';
   document.getElementById('modalDesc').textContent = p.desc;
 
-  var specsEl = document.getElementById('modalSpecs');
-  specsEl.textContent = '';
-  p.specs.split('|').forEach(function(s) {
-    specsEl.appendChild(createTextEl('div', s.trim()));
-  });
+  // Verf\u00fcgbarkeit
+  var availEl = document.getElementById('modalAvail');
+  availEl.textContent = p.avail || '';
+  availEl.className = 'modal-avail' + (p.avail === 'Sofort lieferbar' ? ' available' : '');
+
+  // Ma\u00dfe (Specs mit Doppelpunkt werden als dl gerendert)
+  var dimsWrap = document.getElementById('modalDimsWrap');
+  var dims = document.getElementById('modalDims');
+  dims.textContent = '';
+  var dimEntries = [];
+  var loose = [];
+  if (p.specs) {
+    p.specs.split('|').forEach(function(s) {
+      s = s.trim();
+      if (!s) return;
+      var m = s.match(/^([^:]+):\s*(.+)$/);
+      if (m) dimEntries.push([m[1].trim(), m[2].trim()]);
+      else loose.push(s);
+    });
+  }
+  if (dimEntries.length) {
+    dimEntries.forEach(function(pair) {
+      dims.appendChild(createTextEl('dt', pair[0]));
+      dims.appendChild(createTextEl('dd', pair[1]));
+    });
+    dimsWrap.hidden = false;
+  } else {
+    dimsWrap.hidden = true;
+  }
+
+  // Meta-Block (Zustand, Material, Lieferumfang, ggf. lose Specs-Info)
+  var metaWrap = document.getElementById('modalMetaWrap');
+  var meta = document.getElementById('modalMeta');
+  meta.textContent = '';
+  var metaPairs = [];
+  if (p.condition) metaPairs.push(['Zustand', p.condition]);
+  if (p.material)  metaPairs.push(['Material', p.material]);
+  if (p.delivery)  metaPairs.push(['Lieferung', p.delivery]);
+  if (loose.length) metaPairs.push(['Bestand', loose.join(' \u00B7 ')]);
+  if (metaPairs.length) {
+    metaPairs.forEach(function(pair) {
+      meta.appendChild(createTextEl('dt', pair[0]));
+      meta.appendChild(createTextEl('dd', pair[1]));
+    });
+    metaWrap.hidden = false;
+  } else {
+    metaWrap.hidden = true;
+  }
 
   var inquireBtn = document.getElementById('modalInquire');
   inquireBtn.href = 'mailto:info@muster-stuehle.de?subject=Anfrage: ' + p.name + ' (' + p.id + ')';
@@ -1288,7 +2800,70 @@ var obs = new IntersectionObserver(function(entries) {
     if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
+document.querySelectorAll('.fade-up, .product-card, .geflecht-card').forEach(function(el) { obs.observe(el); });
+
+// ── Newsletter (Demo: client-side Best\u00e4tigung) ──
+(function() {
+  var nf = document.getElementById('newsletterForm');
+  if (!nf) return;
+  var ok = document.getElementById('newsletterSuccess');
+  nf.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = (document.getElementById('newsletterEmail').value || '').trim();
+    if (!email || !nf.checkValidity()) { nf.reportValidity(); return; }
+    nf.style.display = 'none';
+    if (ok) ok.classList.add('visible');
+  });
+})();
+
+// ── Kontaktformular: \u00dcbergabe an Mail-Client via mailto ──
+(function() {
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+  var success = document.getElementById('formSuccess');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Native Validierung ausl\u00f6sen
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    var name    = (document.getElementById('cf-name').value || '').trim();
+    var email   = (document.getElementById('cf-email').value || '').trim();
+    var phone   = (document.getElementById('cf-phone').value || '').trim();
+    var topic   = (document.getElementById('cf-topic').value || '').trim();
+    var message = (document.getElementById('cf-msg').value || '').trim();
+
+    var subject = 'Kontaktanfrage &mdash; ' + topic;
+    subject = subject.replace(/&mdash;/g, '\u2014');
+
+    var bodyLines = [
+      'Name:    ' + name,
+      'E-Mail:  ' + email
+    ];
+    if (phone) bodyLines.push('Telefon: ' + phone);
+    bodyLines.push('Anliegen: ' + topic);
+    bodyLines.push('');
+    bodyLines.push('Nachricht:');
+    bodyLines.push(message);
+    bodyLines.push('');
+    bodyLines.push('---');
+    bodyLines.push('Gesendet \u00fcber das Kontaktformular der Website.');
+
+    var mailto = 'mailto:info@muster-stuehle.de'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+
+    // Erfolgshinweis zeigen, dann Mail-Client \u00f6ffnen
+    if (success) success.classList.add('visible');
+    window.setTimeout(function() {
+      window.location.href = mailto;
+    }, 250);
+  });
+})();
 </script>
 </body>
 </html>
