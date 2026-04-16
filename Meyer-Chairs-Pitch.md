@@ -1,4 +1,4 @@
-# MEYER CHAIRS
+# STUHL.GALERIE
 
 ## Ein Vorschlag für Ihren Internet-Auftritt
 

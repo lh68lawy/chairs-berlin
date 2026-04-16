@@ -8,8 +8,8 @@
   --grey-mid: #8C8279;
   --grey-soft: #DDD8D0;
   --accent: #C4A882;
-  --signal: #FA4402;
-  --signal-deep: #D83A02;
+  --signal: #2E78C2;
+  --signal-deep: #1E5F9E;
   --font-heading: "Jost", "Helvetica Neue", sans-serif;
   --font-body: "Lora", Georgia, serif;
 }
@@ -98,7 +98,7 @@ a:hover { color: var(--signal); }
   color: var(--signal);
   padding: 12px 16px;
   border-left: 2px solid var(--signal);
-  background: rgba(250, 68, 2, 0.04);
+  background: rgba(46, 120, 194, 0.06);
   margin-bottom: 40px;
 }
 .legal-main h2 {
